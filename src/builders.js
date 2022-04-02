@@ -1,7 +1,31 @@
 "use strict";
 
 function player() { }
-function collectable() { }
+function collectable() { 
+
+  let container = h.circle(0,"white", "white", 2, 500, 500);
+  let collectable = h.circle(16, "gold", "black", 2, 0, 0);
+  
+  let shadow =h.circle(16, "black","black", 2, 0,25);
+  shadow.alpha =0.5;
+
+  map.addChild(container);
+  container.addChild(collectable);
+  container.addChild(shadow);
+
+  h.slide(collectable, 0, 5, 10, "smoothstep", true);
+
+
+  container.update = function () {
+  
+    if (h.hitTestCircle(ball, container)) {
+      console.log("hit");
+    }
+
+  }
+
+  return container;
+}
 
 function guard() {
 
