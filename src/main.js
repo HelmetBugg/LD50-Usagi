@@ -10,7 +10,6 @@ var ball = undefined;
 var map;
 var test_guard;
 var mapCollectables = [];
-
 h.start();
 
 function setup() {
@@ -26,11 +25,9 @@ function setup() {
 
   test_guard = guard();
 
-  var Collect1 = collectable();
-  var Collect2 = collectable();
-  Collect2.x += 100;
-  var Collect3 = collectable();
-  Collect3.x += 200;
+  var Collect1 = collectable(500,500);
+  var Collect2 = collectable(600,500);
+  var Collect3 = collectable(700,500);
 
   mapCollectables= [];
   mapCollectables.push(Collect1, Collect2, Collect3);

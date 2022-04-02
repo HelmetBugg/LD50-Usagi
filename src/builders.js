@@ -1,25 +1,42 @@
 "use strict";
 
 function player() { }
-function collectable() { 
+function collectable(x,y) {
 
-  let container = h.circle(0,"white", "white", 2, 500, 500);
+  let container = h.circle(0, "white", "white", 2, x, y);
   let collectable = h.circle(16, "gold", "black", 2, 0, 0);
-  
-  let shadow = h.circle(16, "black","black", 2, 0, 25);
+  let collison = h.rectangle(16, 16, "black", "white", 0, container.x, container.y);
+  let shadow = h.circle(16, "black", "black", 2, 0, 25);
   shadow.alpha = 0.25;
-
+  collison.visible = false;
+  map.addChild(collison);
   map.addChild(container);
   container.addChild(collectable);
   container.addChild(shadow);
 
   h.slide(collectable, 0, 5, 10, "smoothstep", true);
   container.update = function () {
-    if (h.hitTestCircle(ball, container)) {
+    if (h.hit(ball, collison)) {
       console.log("hit");
-      h.remove(this);
+      var index = container.find();
+      mapCollectables.splice(index, 1);
+      console.log(mapCollectables);
+      h.remove(container);
     }
+
+
   }
+  container.find = function () {
+    for (var i = 0; i <= mapCollectables.length; i++) {
+
+      if (mapCollectables[i] == container) {
+        return i;
+      }
+
+    }
+
+  }
+
 
   return container;
 }
@@ -37,17 +54,17 @@ function guard() {
   // Path finding boilerplate
   // waypoints, without height/width distance function doesn't work.
   guard.waypoints = [
-    { 'x': 200, 'y': 50, 'width':10, 'height':10 },
-    { 'x': 200, 'y': 200, 'width':10, 'height':10 },
-    { 'x': 50, 'y': 200, 'width':10, 'height':10 },
-    { 'x': 50, 'y': 50, 'width':10, 'height':10 }
+    { 'x': 200, 'y': 50, 'width': 10, 'height': 10 },
+    { 'x': 200, 'y': 200, 'width': 10, 'height': 10 },
+    { 'x': 50, 'y': 200, 'width': 10, 'height': 10 },
+    { 'x': 50, 'y': 50, 'width': 10, 'height': 10 }
   ];
   guard.waypointIncrement = 0;
   guard.target = guard.waypoints[guard.waypointIncrement];
   guard.speed = 3;
   guard.rotationSpeed = 0.08;
-  if (h.debug){
-    for (const w of guard.waypoints){
+  if (h.debug) {
+    for (const w of guard.waypoints) {
       let waypoint = h.circle(8, "orange", "black", 0, w.x, w.y);
       waypoint.setPivot(0.5, 0.5);
       map.addChild(waypoint);
@@ -61,20 +78,20 @@ function guard() {
   guard.vision = vision;
   map.addChild(vision)
 
-  guard.checkLineOfSight = function(){
+  guard.checkLineOfSight = function () {
     var result = true;
     vision.alpha = 0.55;
-    if(!h.lineOfSight(guard, ball, [], 16)){
+    if (!h.lineOfSight(guard, ball, [], 16)) {
       result = false;
     }
-    if(range <= h.distance(guard, ball)){
+    if (range <= h.distance(guard, ball)) {
       result = false;
     }
-    if(!h.hit(guard.vision, ball)){
+    if (!h.hit(guard.vision, ball)) {
       result = false;
       vision.alpha = 0.25;
     }
-    return result;    
+    return result;
   }
 
 
@@ -98,8 +115,8 @@ function guard() {
 
   // If he's reached his target move onto the next, loop if exhausted waypoints.
   guard.targetCheck = function () {
-    if (h.distance(guard, guard.target) < (guard.speed + 1)){
-      if ((guard.waypointIncrement + 1) >= guard.waypoints.length){
+    if (h.distance(guard, guard.target) < (guard.speed + 1)) {
+      if ((guard.waypointIncrement + 1) >= guard.waypoints.length) {
         guard.waypointIncrement = 0;
       } else {
         guard.waypointIncrement++;
