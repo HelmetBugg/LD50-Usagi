@@ -82,7 +82,7 @@ function guard() {
     guard.vision.x = guard.x;
     guard.vision.y = guard.y;
     guard.vision.rotation = guard.rotation + -0.8;
-    console.log(guard.checkLineOfSight());
+    guard.checkLineOfSight();
     guard.targetCheck();
 
     // Turn guard to face target.

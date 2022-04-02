@@ -3,7 +3,7 @@ let thingsToLoad = [
   "res/735315.png"
 ]
 
-var h = hexi(1280, 720, setup, thingsToLoad);
+var h = hexi(640, 480, setup, thingsToLoad);
 h.debug = true;
 h.scaleToWindow();
 var ball = undefined;
@@ -35,7 +35,9 @@ function setup() {
   mapCollectables= [];
   mapCollectables.push(Collect1, Collect2, Collect3);
 
-  initKeyboard();
+  document.addEventListener('keyup', handleKeyUp);
+
+  document.addEventListener('keydown', handleKeyDown);
   h.state = play;
 }
 
@@ -54,63 +56,11 @@ function play() {
 
   for (var collectable of mapCollectables){
     collectable.update();
-
-
   }
-
 }
 
-function initKeyboard() {
-  let speed = 16;
-  let wKey = h.keyboard(87);
-  let sKey = h.keyboard(83);
-  let dKey = h.keyboard(68);
-  let aKey = h.keyboard(65);
-
-  wKey.press = () => {
-    ball.vy = -5;
-    map.vy = 5;
-  };
-  wKey.release = () => {
-    if (!sKey.isDown) {
-      map.vy = 0;
-      ball.vy = 0;
-    }
-  };
-
-  sKey.press = () => {
-    ball.vy = 5;
-    map.vy = -5;
-  };
-  sKey.release = () => {
-    if (!wKey.isDown) {
-      map.vy = 0;
-      ball.vy = 0;
-    }
-  };
-
-  dKey.press = () => {
-    ball.vx = 5;
-    map.vx = -5;
-  };
-  dKey.release = () => {
-    if (!wKey.isDown) {
-      ball.vx = 0;
-      map.vx = 0;
-    }
-  };
-
-  aKey.press = () => {
-    ball.vx = -5;
-    map.vx = 5;
-  };
-  aKey.release = () => {
-    if (!wKey.isDown) {
-      ball.vx = 0;
-      map.vx = 0;
-    }
-  };
+function preventUseOfDefaultKeys(event) {
+  if (event.key =='w' || event.key =='a' || event.key =='s' || event.key =='d') {
+      event.preventDefault();
+  }
 }
-
-
-
