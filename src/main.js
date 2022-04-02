@@ -8,15 +8,11 @@ h.debug = true;
 h.scaleToWindow();
 var player;
 var map;
-var test_guard;
+var mapGuards = [];
 var mapCollectables = [];
 h.start();
 
 function setup() {
-  mainMenu();
-}
-
-function mainMenu(){
   var title = h.text("Bunny Ninja Heist", "75px Tahoma", "black");
   h.stage.putCenter(title);
   var startButton = h.text("Play", "45px Tahoma", "grey");
@@ -31,21 +27,28 @@ function mainMenu(){
   }
 }
 
-
-function loadGame(){
-  map = h.sprite("res/735315.png");
-  player = player();
-  test_guard = guard();
-  var Collect1 = collectable(500,500);
-  var Collect2 = collectable(600,500);
-  var Collect3 = collectable(700,500);
-
-  mapCollectables= [];
-  mapCollectables.push(Collect1, Collect2, Collect3);
-
+function firstPlay(){
   document.addEventListener('keyup', handleKeyUp);
   document.addEventListener('keydown', handleKeyDown);
   h.state = play;
+}
+
+function loadLevel(level){
+  map = h.sprite(level.graphic);
+  map.x -= level.spawn.x;
+  map.y -= level.spawn.y;
+  player = player();
+  player.x = level.spawn.x + (h.canvas.width/2);
+  player.y = level.spawn.y + (h.canvas.height/2); 
+
+  var spawn = h.circle(10, "purple", "black", 0, level.spawn.x + (h.canvas.width/2), level.spawn.y + (h.canvas.height/2));
+  map.addChild(spawn);
+  for(var npc of level.npcs){
+    mapGuards.push(guard(npc.x, npc.y, npc.path));
+  }
+  for(var cbl of level.collectables){
+    mapCollectables.push(collectable(cbl.x, cbl.y, cbl.path));
+  }  
 }
 
 function findPlayerAngle(t1) {
@@ -55,12 +58,15 @@ function findPlayerAngle(t1) {
   return Math.atan2(t1.y - t2.y, t1.x - t2.x);
 }
 
+function pause(){};
+
 function play() {
   h.move(player);
   h.move(map);
   player.rotation = findPlayerAngle(h.pointer);
-  test_guard.update();
-
+  for (var guard of mapGuards){
+    guard.update();
+  }
   for (var collectable of mapCollectables){
     collectable.update();
   }
@@ -82,9 +88,10 @@ function levelSelect(){
     cleanUp(level2Button)
     cleanUp(level3Button)
     cleanUp(title)
-    loadGame();
+    loadLevel(level1);
+    firstPlay();
+ 
   }
-
 }
 
 function cleanUp(input){
