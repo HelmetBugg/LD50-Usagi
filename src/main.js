@@ -9,12 +9,15 @@ h.scaleToWindow();
 var ball = undefined;
 var map;
 var test_guard;
+var mapCollectables = [];
+
 h.start();
 
 function setup() {
   map = h.sprite("res/735315.png");
   ball = h.circle(32, "white", "black", 2, 192, 256);
   map.addChild(ball);
+  
   h.stage.putCenter(ball);
   var head = h.rectangle(16, 16, "white", "black", 2, 0, 0);
   ball.setPivot(0.5, 0.5);
@@ -22,6 +25,15 @@ function setup() {
   head.rotation = -0.8;
 
   test_guard = guard();
+
+  var Collect1 = collectable();
+  var Collect2;
+  var Collect3;
+
+  mapCollectables= [];
+  mapCollectables.push(Collect1);
+
+ var test_collectable = collectable();
   initKeyboard();
   h.state = play;
 }
@@ -38,6 +50,13 @@ function play() {
   h.move(map);
   ball.rotation = findPlayerAngle(h.pointer);
   test_guard.update();
+
+  for (var collectable of mapCollectables){
+    collectable.update();
+
+
+  }
+
 }
 
 function initKeyboard() {
