@@ -22,9 +22,6 @@ function setup() {
   head.rotation = -0.8;
 
   test_guard = guard();
-  /*var test_siteLine = siteLine(200) 
-  test_siteLine.rotation = 100;*/
-
   initKeyboard();
   h.state = play;
 }

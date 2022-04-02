@@ -34,21 +34,42 @@ function guard() {
   }
 
   // Line of sight boilerplate
-  var lineOfSite = 250;
-  for(var i = 0; i < 10; i++){
-    let line = siteLine(lineOfSite);
-    line.rotation = (0.15 * i) + -0.4;
-    guard.addChild(line);
+  var range = 100;
+  var vision = h.rectangle(range, range, "green", "black", 0, 10, 10);
+  vision.alpha = 0.25;
+  guard.vision = vision;
+  map.addChild(vision)
+
+
+  guard.checkLineOfSight = function(){
+    var result = true;
+    if(!h.lineOfSight(guard, ball, [], 16)){
+      result = false;
+    }
+    /*if(range <= h.distance(guard, ball)){
+      result = false;
+    }*/
+    if(!h.hit(guard.vision, ball)){
+      result = false;
+    }
+    return result;    
   }
 
+
   guard.update = function () {
+    guard.vision.x = guard.x;
+    guard.vision.y = guard.y;
+    guard.vision.rotation = guard.rotation + -0.8;
+    console.log(guard.checkLineOfSight());
     guard.targetCheck();
+
     // Turn guard to face target.
     if (Math.floor(guard.rotation * 10) < Math.floor(h.angle(guard, guard.target) * 10)) {
       guard.rotation += guard.rotationSpeed;
     } else if (Math.floor(guard.rotation * 10) > Math.floor(h.angle(guard, guard.target) * 10)) {
       guard.rotation -= guard.rotationSpeed;
     }
+
     h.followConstant(guard, guard.target, guard.speed);
   }
 
@@ -67,35 +88,4 @@ function guard() {
   }
 
   return guard;
-}
-
-
-function siteLine(length){
-  var line = h.rectangle(length, 16, "green", "black", 0, 0, 0);
-  line.setPivot(0, 0.5);
-  line.alpha = 0.25;
-
-  line.check = function(){
-    // Need to come back and make the player
-    if (line.angleHitTest(ball, line)){
-      this.alpha = 1;
-      console.log("spotted");
-      return true;
-    }
-    line.alpha = 0.25;
-    return false;
-  }
-
-  line.angledHitTest = function(sprite1, sprite2){
-    for(var i=0; i<sprite1.width; i+=10){
-        xValue = sprite1.x + (i * Math.cos(sprite1.rotation));
-        yValue = sprite1.y + (i * Math.sin(sprite1.rotation));
-        if (h.hit({x: xValue, y:yValue, width:16, height:16}, sprite2)) {
-            return true;
-        }       
-    }
-    return false;
-  }
-
-  return line;
 }
