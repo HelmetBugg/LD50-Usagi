@@ -1,6 +1,18 @@
 "use strict";
 
-function player() { }
+function player() {
+  var body = h.circle(32, "white", "black", 2, 192, 256);
+  var head = h.rectangle(16, 16, "white", "black", 2, 0, 0);
+  body.setPivot(0.5, 0.5);
+  body.addChild(head);
+  head.rotation = -0.8;
+  map.addChild(body);
+  h.stage.putCenter(body);
+  
+  return body;
+}
+
+
 function collectable() { 
 
   let container = h.circle(0,"white", "white", 2, 500, 500);
@@ -15,7 +27,7 @@ function collectable() {
 
   h.slide(collectable, 0, 5, 10, "smoothstep", true);
   container.update = function () {
-    if (h.hitTestCircle(ball, container)) {
+    if (h.hitTestCircle(player, container)) {
       console.log("hit");
       h.remove(this);
     }
@@ -23,6 +35,7 @@ function collectable() {
 
   return container;
 }
+
 
 function guard() {
 
@@ -64,13 +77,13 @@ function guard() {
   guard.checkLineOfSight = function(){
     var result = true;
     vision.alpha = 0.55;
-    if(!h.lineOfSight(guard, ball, [], 16)){
+    if(!h.lineOfSight(guard, player, [], 16)){
       result = false;
     }
-    if(range <= h.distance(guard, ball)){
+    if(range <= h.distance(guard, player)){
       result = false;
     }
-    if(!h.hit(guard.vision, ball)){
+    if(!h.hit(guard.vision, player)){
       result = false;
       vision.alpha = 0.25;
     }
