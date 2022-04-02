@@ -1,37 +1,42 @@
 "use strict";
-var h = hexi(512, 512, setup);
+let thingsToLoad = [
+  "res/forest.png"
+]
+
+var h = hexi(1280, 720, setup, thingsToLoad);
+
 h.scaleToWindow();
 var ball = undefined;
+var map;
 h.start();
 
-//The `setup` function to initialize your application
 function setup() {
-
-  //Make a ball sprite.
-  //circle arguments: diameter, fillStyle, strokeStyle, lineWidth, x, y
-  ball = h.circle(64, "powderBlue", "black", 2, 192, 256);
-
+  map = h.sprite("res/forest.png");
+  map.scaleX = map.scaleY = 6;
+  ball = h.circle(32, "white", "black", 2, 192, 256);
+  h.stage.putCenter(ball);
+  var head = h.rectangle(16, 16, "white", "black", 2, 0, 0);
+  ball.setPivot(0.5, 0.5);
+  ball.addChild(head);
+  head.rotation = -0.8;
   initKeyboard();
-
-  h.state=play;
+  h.state = play;
 }
+
 
 function play() {
-h.move(ball);
- 
+  h.move(ball);
+  h.move(map);
+  ball.rotation = h.angle(ball, h.pointer);
 }
 
-
 function initKeyboard() {
+
 	let speed = 16;
   let wKey = h.keyboard(87);
   let sKey = h.keyboard(83);
   let dKey = h.keyboard(68);
   let aKey = h.keyboard(65);
-
-//	dialogue.press = () => {
-	
-//	}
 
   wKey.press = () => {
     ball.vy = -5;
@@ -44,6 +49,7 @@ function initKeyboard() {
 
   sKey.press = () => {
     ball.vy = 5;
+    ball.vy = -5;
     ball.vx = 0;
   };
   sKey.release = () => {
