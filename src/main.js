@@ -47,7 +47,7 @@ function loadLevel(level){
     mapGuards.push(guard(npc.x, npc.y, npc.path));
   }
   for(var cbl of level.collectables){
-    mapCollectables.push(collectable(cbl.x, cbl.y, cbl.path));
+    mapCollectables.push(collectable(cbl.x, cbl.y, cbl.value));
   }  
 }
 
