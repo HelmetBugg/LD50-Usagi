@@ -1,8 +1,17 @@
 "use strict";
 
-function player() { }
+function player() {
+  var body = h.circle(32, "white", "black", 2, 192, 256);
+  var head = h.rectangle(16, 16, "white", "black", 2, 0, 0);
+  body.setPivot(0.5, 0.5);
+  body.addChild(head);
+  head.rotation = -0.8;
+  map.addChild(body);
+  h.stage.putCenter(body);
+  
+  return body;
+}
 function collectable(x,y) {
-
   let container = h.circle(0, "white", "white", 2, x, y);
   let collectable = h.circle(16, "gold", "black", 2, 0, 0);
   let collison = h.rectangle(16, 16, "black", "white", 0, container.x, container.y);
@@ -16,7 +25,8 @@ function collectable(x,y) {
 
   h.slide(collectable, 0, 5, 10, "smoothstep", true);
   container.update = function () {
-    if (h.hit(ball, collison)) {
+    if (h.hit(player, collison)) {
+
       console.log("hit");
       var index = container.find();
       mapCollectables.splice(index, 1);
@@ -40,6 +50,7 @@ function collectable(x,y) {
 
   return container;
 }
+
 
 function guard() {
 
@@ -81,13 +92,14 @@ function guard() {
   guard.checkLineOfSight = function () {
     var result = true;
     vision.alpha = 0.55;
-    if (!h.lineOfSight(guard, ball, [], 16)) {
+    if(!h.lineOfSight(guard, player, [], 16)){
       result = false;
     }
-    if (range <= h.distance(guard, ball)) {
+    if(range <= h.distance(guard, player)){
       result = false;
     }
-    if (!h.hit(guard.vision, ball)) {
+    if(!h.hit(guard.vision, player)){
+
       result = false;
       vision.alpha = 0.25;
     }
@@ -99,7 +111,7 @@ function guard() {
     guard.vision.x = guard.x;
     guard.vision.y = guard.y;
     guard.vision.rotation = guard.rotation + -0.8;
-    console.log(guard.checkLineOfSight());
+    guard.checkLineOfSight();
     guard.targetCheck();
 
     // Turn guard to face target.
