@@ -4,9 +4,11 @@ let thingsToLoad = [
 ]
 
 var h = hexi(1280, 720, setup, thingsToLoad);
+h.debug = true;
 h.scaleToWindow();
 var ball = undefined;
 var map;
+var test_guard;
 h.start();
 
 function setup() {
@@ -18,11 +20,16 @@ function setup() {
   ball.setPivot(0.5, 0.5);
   ball.addChild(head);
   head.rotation = -0.8;
+
+  test_guard = guard();
+  /*var test_siteLine = siteLine(200) 
+  test_siteLine.rotation = 100;*/
+
   initKeyboard();
   h.state = play;
 }
 
-function findPlayerAngle(t1){
+function findPlayerAngle(t1) {
   var t2 = {};
   t2.x = ball.x + map.x;
   t2.y = ball.y + map.y;
@@ -32,12 +39,12 @@ function findPlayerAngle(t1){
 function play() {
   h.move(ball);
   h.move(map);
-  ball.rotation = findPlayerAngle(h.pointer);//h.angle(ball, h.pointer);
-  //console.log(ball.rotation);
+  ball.rotation = findPlayerAngle(h.pointer);
+  test_guard.update();
 }
 
 function initKeyboard() {
-	let speed = 16;
+  let speed = 16;
   let wKey = h.keyboard(87);
   let sKey = h.keyboard(83);
   let dKey = h.keyboard(68);
@@ -48,7 +55,7 @@ function initKeyboard() {
     map.vy = 5;
   };
   wKey.release = () => {
-    if(!sKey.isDown){
+    if (!sKey.isDown) {
       map.vy = 0;
       ball.vy = 0;
     }
@@ -59,10 +66,10 @@ function initKeyboard() {
     map.vy = -5;
   };
   sKey.release = () => {
-    if(!wKey.isDown){
-      map.vy = 0;  
-        ball.vy = 0;
-      }
+    if (!wKey.isDown) {
+      map.vy = 0;
+      ball.vy = 0;
+    }
   };
 
   dKey.press = () => {
@@ -70,10 +77,10 @@ function initKeyboard() {
     map.vx = -5;
   };
   dKey.release = () => {
-    if(!wKey.isDown){
-        ball.vx = 0;
-        map.vx = 0;
-      }
+    if (!wKey.isDown) {
+      ball.vx = 0;
+      map.vx = 0;
+    }
   };
 
   aKey.press = () => {
@@ -81,7 +88,7 @@ function initKeyboard() {
     map.vx = 5;
   };
   aKey.release = () => {
-    if(!wKey.isDown){    
+    if (!wKey.isDown) {
       ball.vx = 0;
       map.vx = 0;
     }
