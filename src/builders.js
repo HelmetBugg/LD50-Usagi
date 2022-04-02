@@ -6,8 +6,8 @@ function collectable() {
   let container = h.circle(0,"white", "white", 2, 500, 500);
   let collectable = h.circle(16, "gold", "black", 2, 0, 0);
   
-  let shadow =h.circle(16, "black","black", 2, 0,25);
-  shadow.alpha =0.5;
+  let shadow = h.circle(16, "black","black", 2, 0, 25);
+  shadow.alpha = 0.25;
 
   map.addChild(container);
   container.addChild(collectable);
@@ -17,6 +17,7 @@ function collectable() {
   container.update = function () {
     if (h.hitTestCircle(ball, container)) {
       console.log("hit");
+      h.remove(this);
     }
   }
 
@@ -60,17 +61,18 @@ function guard() {
   guard.vision = vision;
   map.addChild(vision)
 
-
   guard.checkLineOfSight = function(){
     var result = true;
+    vision.alpha = 0.55;
     if(!h.lineOfSight(guard, ball, [], 16)){
       result = false;
     }
-    /*if(range <= h.distance(guard, ball)){
+    if(range <= h.distance(guard, ball)){
       result = false;
-    }*/
+    }
     if(!h.hit(guard.vision, ball)){
       result = false;
+      vision.alpha = 0.25;
     }
     return result;    
   }

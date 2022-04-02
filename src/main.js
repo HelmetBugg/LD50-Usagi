@@ -27,13 +27,14 @@ function setup() {
   test_guard = guard();
 
   var Collect1 = collectable();
-  var Collect2;
-  var Collect3;
+  var Collect2 = collectable();
+  Collect2.x += 100;
+  var Collect3 = collectable();
+  Collect3.x += 200;
 
   mapCollectables= [];
-  mapCollectables.push(Collect1);
+  mapCollectables.push(Collect1, Collect2, Collect3);
 
- var test_collectable = collectable();
   initKeyboard();
   h.state = play;
 }
