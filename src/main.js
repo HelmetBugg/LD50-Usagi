@@ -40,39 +40,43 @@ function initKeyboard() {
 
   wKey.press = () => {
     ball.vy = -5;
-    ball.vx = 0;
+    
   };
   wKey.release = () => {
+    if(!sKey.isDown){
+    
     ball.vy = 0;
-    ball.vx = 0;
+    
+    }
   };
 
   sKey.press = () => {
     ball.vy = 5;
-    ball.vy = -5;
-    ball.vx = 0;
   };
   sKey.release = () => {
-    ball.vy =0;
-    ball.vx = 0;
+    if(!wKey.isDown){
+    
+      ball.vy = 0;
+      }
   };
 
   dKey.press = () => {
-    ball.vy = 0;
     ball.vx = 5;
   };
   dKey.release = () => {
-    ball.vy =0;
-    ball.vx = 0;
+    if(!wKey.isDown){
+      ball.vx = 0;
+      }
   };
 
   aKey.press = () => {
-    ball.vy = 0;
     ball.vx = -5;
   };
   aKey.release = () => {
-    ball.vy = 0;
-    ball.vx = 0;
+    if(!wKey.isDown){
+    
+      ball.vx = 0;
+      }
   };
 }
 
