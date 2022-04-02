@@ -1,19 +1,18 @@
 "use strict";
 let thingsToLoad = [
-  "res/forest.png"
+  "res/735315.png"
 ]
 
 var h = hexi(1280, 720, setup, thingsToLoad);
-
 h.scaleToWindow();
 var ball = undefined;
 var map;
 h.start();
 
 function setup() {
-  map = h.sprite("res/forest.png");
-  map.scaleX = map.scaleY = 6;
+  map = h.sprite("res/735315.png");
   ball = h.circle(32, "white", "black", 2, 192, 256);
+  map.addChild(ball);
   h.stage.putCenter(ball);
   var head = h.rectangle(16, 16, "white", "black", 2, 0, 0);
   ball.setPivot(0.5, 0.5);
@@ -23,15 +22,21 @@ function setup() {
   h.state = play;
 }
 
+function findPlayerAngle(t1){
+  var t2 = {};
+  t2.x = ball.x + map.x;
+  t2.y = ball.y + map.y;
+  return Math.atan2(t1.y - t2.y, t1.x - t2.x);
+}
 
 function play() {
   h.move(ball);
   h.move(map);
-  ball.rotation = h.angle(ball, h.pointer);
+  ball.rotation = findPlayerAngle(h.pointer);//h.angle(ball, h.pointer);
+  //console.log(ball.rotation);
 }
 
 function initKeyboard() {
-
 	let speed = 16;
   let wKey = h.keyboard(87);
   let sKey = h.keyboard(83);
@@ -40,43 +45,46 @@ function initKeyboard() {
 
   wKey.press = () => {
     ball.vy = -5;
-    
+    map.vy = 5;
   };
   wKey.release = () => {
     if(!sKey.isDown){
-    
-    ball.vy = 0;
-    
+      map.vy = 0;
+      ball.vy = 0;
     }
   };
 
   sKey.press = () => {
     ball.vy = 5;
+    map.vy = -5;
   };
   sKey.release = () => {
     if(!wKey.isDown){
-    
-      ball.vy = 0;
+      map.vy = 0;  
+        ball.vy = 0;
       }
   };
 
   dKey.press = () => {
     ball.vx = 5;
+    map.vx = -5;
   };
   dKey.release = () => {
     if(!wKey.isDown){
-      ball.vx = 0;
+        ball.vx = 0;
+        map.vx = 0;
       }
   };
 
   aKey.press = () => {
     ball.vx = -5;
+    map.vx = 5;
   };
   aKey.release = () => {
-    if(!wKey.isDown){
-    
+    if(!wKey.isDown){    
       ball.vx = 0;
-      }
+      map.vx = 0;
+    }
   };
 }
 
