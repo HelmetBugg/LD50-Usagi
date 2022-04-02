@@ -36,9 +36,9 @@ function loadGame(){
   map = h.sprite("res/735315.png");
   player = player();
   test_guard = guard();
-  var Collect1 = collectable(500,500);
-  var Collect2 = collectable(600,500);
-  var Collect3 = collectable(700,500);
+  var Collect1 = collectable(500,500,100);
+  var Collect2 = collectable(600,500,200);
+  var Collect3 = collectable(700,500,300);
 
   mapCollectables= [];
   mapCollectables.push(Collect1, Collect2, Collect3);
