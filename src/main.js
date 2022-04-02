@@ -41,8 +41,8 @@ function loadLevel(level){
   player.x = level.spawn.x + (h.canvas.width/2);
   player.y = level.spawn.y + (h.canvas.height/2); 
 
-  var spawn = h.circle(10, "purple", "black", 0, level.spawn.x + (h.canvas.width/2), level.spawn.y + (h.canvas.height/2));
-  map.addChild(spawn);
+  player.spawn = h.circle(10, "purple", "black", 0, level.spawn.x + (h.canvas.width/2), level.spawn.y + (h.canvas.height/2)+30);
+  map.addChild(player.spawn);
   for(var npc of level.npcs){
     mapGuards.push(guard(npc.x, npc.y, npc.path));
   }
@@ -58,18 +58,22 @@ function findPlayerAngle(t1) {
   return Math.atan2(t1.y - t2.y, t1.x - t2.x);
 }
 
-function pause(){};
-
 function play() {
-  h.move(player);
-  h.move(map);
-  player.rotation = findPlayerAngle(h.pointer);
+  player.update();
   for (var guard of mapGuards){
     guard.update();
   }
   for (var collectable of mapCollectables){
     collectable.update();
   }
+}
+
+function scoreBoard(){
+  h.state = pause();
+  var title = h.text("Score Summary", "45px Tahoma", "black", 10, 10);
+  var foodScore = h.text("Food Score", "30px Tahoma", "light-grey", 50, 100);
+  var timeScore = h.text("Time Score", "30px Tahoma", "light-grey", 50, 200);
+  var level1Button = h.text("Total Score", "30px Tahoma", "light-grey", 100, 300);
 }
 
 function levelSelect(){
@@ -90,7 +94,6 @@ function levelSelect(){
     cleanUp(title)
     loadLevel(level1);
     firstPlay();
- 
   }
 }
 
@@ -98,3 +101,5 @@ function cleanUp(input){
 	input.x += 20000;
 	h.remove(input);		
 }
+
+function pause(){};

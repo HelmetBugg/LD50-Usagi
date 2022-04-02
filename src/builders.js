@@ -1,5 +1,4 @@
 "use strict";
-
 function player() {
   var body = h.circle(32, "white", "black", 2, 0, 0);
   var head = h.rectangle(16, 16, "white", "black", 2, 0, 0);
@@ -7,7 +6,12 @@ function player() {
   body.addChild(head);
   head.rotation = -0.8;
   map.addChild(body);
-  //h.stage.putCenter(body);
+  body.update = function() {
+    h.move(player);
+    h.move(map);
+    player.rotation = findPlayerAngle(h.pointer);
+
+  }
   return body;
 }
 

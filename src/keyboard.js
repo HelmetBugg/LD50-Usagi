@@ -34,6 +34,11 @@ function handleKeyUp(event) {
     map.vx = 0;
     player.vx = 0;
   };
+  if (event.isComposing || event.key =='e'){
+    if (h.hit(player, player.spawn)){
+      scoreBoard();
+    }
+  };
 }
 
 function preventUseOfDefaultKeys(event) {
