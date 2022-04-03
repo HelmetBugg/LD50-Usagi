@@ -40,7 +40,9 @@ function loadLevel(level){
   player = player();
   player.x = level.spawn.x + (h.canvas.width/2);
   player.y = level.spawn.y + (h.canvas.height/2); 
-
+  var startTime = new Date();
+  let getStart = startTime.getTime();
+  player.st = (getStart/100);
   player.spawn = h.circle(10, "purple", "black", 0, level.spawn.x + (h.canvas.width/2), level.spawn.y + (h.canvas.height/2)+30);
   map.addChild(player.spawn);
   for(var npc of level.npcs){
@@ -49,6 +51,8 @@ function loadLevel(level){
   for(var cbl of level.collectables){
     mapCollectables.push(collectable(cbl.x, cbl.y, cbl.value));
   }  
+ 
+  console.log(player.st);  //Don't forget to comment out before pushing or b will yell at you
 }
 
 function findPlayerAngle(t1) {
@@ -70,10 +74,20 @@ function play() {
 
 function scoreBoard(){
   h.state = pause();
+  var endTime = new Date();
+  let getEnd = endTime.getTime();
+  var et = (getEnd/100);
+  var baseScore = 1000;
+  console.log(et);
+  console.log(player.startTime);
+  var totalTime = Math.abs(et - player.st);
+  var totalTimeScore = Math.floor(baseScore - totalTime); 
+    totalTimeScore = Math.max(totalTimeScore, 0);
+  var ultraScore = Math.max((player.score + totalTimeScore), 0);
   var title = h.text("Score Summary", "45px Tahoma", "black", 10, 10);
-  var foodScore = h.text("Food Score", "30px Tahoma", "light-grey", 50, 100);
-  var timeScore = h.text("Time Score", "30px Tahoma", "light-grey", 50, 200);
-  var level1Button = h.text("Total Score", "30px Tahoma", "light-grey", 100, 300);
+  var foodScore = h.text("Food Score" + "  " + player.score, "30px Tahoma", "light-grey", 50, 100);
+  var timeScore = h.text("Time Score" + "  " + totalTimeScore, "30px Tahoma", "light-grey", 50, 200);
+  var level1Button = h.text("Total Score" + "  " + ultraScore, "30px Tahoma", "light-grey", 100, 300);
 }
 
 function levelSelect(){

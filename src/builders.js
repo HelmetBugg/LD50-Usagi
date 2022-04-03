@@ -35,16 +35,16 @@ function collectable(x, y, score, sprite = "") {
     h.slide(scoreText, 0, 100, 50, "smoothstep", true)
     player.score += container.score;
     h.wait(1000, () => h.remove(scoreText));
-    console.log(player.score);
+   // console.log(player.score);
   }
-  
+
   container.update = function () {
     if (h.hit(player, collison)) {
       var index = container.find();
       mapCollectables.splice(index, 1);
-      console.log(mapCollectables);
+      //console.log(mapCollectables);
       h.remove(container);
-      console.log(score);
+      //console.log(score);
       container.popup()
     }
   }
