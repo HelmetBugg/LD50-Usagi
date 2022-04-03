@@ -165,7 +165,13 @@ function guard(x, y, waypoints) {
   guard.target = guard.waypoints[guard.waypointIncrement];
   guard.speed = 1.5;
   guard.rotationSpeed = 0.05;
-
+  if (debug) {
+    for (const w of guard.waypoints) {
+      let waypoint = h.circle(8, "orange", "black", 0, w.x, w.y);
+      waypoint.setPivot(0.5, 0.5);
+      map.addChild(waypoint);
+    }
+  }
   // Line of sight boilerplate
   var range = 200;
   var vision = h.circle(range, "green", "black", 0, 10, 10);
@@ -206,7 +212,7 @@ function guard(x, y, waypoints) {
     }
     if (guard.state === "patrol"){
       guard.targetCheck();
-      if(guard.checkLineOfSight()){
+      if(guard.checkLineOfSight() && !debug){
         guard.state = "seek";
         guard.target = player;
         setTimeout(startCountDown, 100);

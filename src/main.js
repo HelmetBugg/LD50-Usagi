@@ -41,6 +41,7 @@ let thingsToLoad = [
 var h = hexi(640, 480, setup, thingsToLoad);
 var player;
 var map;
+var debug = false;
 var mapGuards = [];
 var mapCollectables = [];
 var mapCollisions = [];
@@ -262,6 +263,7 @@ function startCountDown(){
   for (var guard of mapGuards){
     guard.state = "seek";
     guard.target = player;
+    guard.speed += 2;
   }
   clockGraphic.curtain.alpha = 0.25;
   clockGraphic.text.text = "Time Remaining 30s";
