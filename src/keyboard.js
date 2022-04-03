@@ -41,7 +41,7 @@ function handleKeyUp(event) {
     //map.addChild(h.circle(32, "blue", "black", 0, h.pointer.x - map.x, h.pointer.y - map.y))
     player.teleport(h.pointer.x - map.x, h.pointer.y - map.y);
   };
-  if ((event.isComposing || event.key == 'q')) {
+  /*if ((event.isComposing || event.key == 'q')) {
     //map.addChild(h.circle(32, "blue", "black", 0, h.pointer.x - map.x, h.pointer.y - map.y))
     h.shoot(
       player,            //The shooter
@@ -53,7 +53,7 @@ function handleKeyUp(event) {
       [],      //The array used to store the bullets
       () => h.circle(10, "brown", "black", 2, 0, 0)
     );
-  };
+  };*/
 }
 
 function preventUseOfDefaultKeys(event) {
