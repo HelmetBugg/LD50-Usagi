@@ -5,23 +5,26 @@ let thingsToLoad = [
   "res/farmer_1.png",
   "res/farmer_2.png",
   "res/farmer_3.png",
+  
   "res/apple_green.png",
   "res/apple_red.png",
   "res/beet.png",
   "res/bell_pepper_red.png",
   "res/blueberries.png",
-  "res/brocooli.png",
+  "res/broccoli.png",
   "res/cabbage.png",
   "res/carrot.png",
   "res/cauliflower.png",
   "res/celery.png",
-  "res/donut_pink.png",
+  "res/doughnut_pink.png",
   "res/eggplant.png",
   "res/grapes_purple.png",
   "res/lettuce.png",
   "res/potato.png",
   "res/strawberry.png",
-  "res/yam.png"
+  "res/yam.png",
+
+  "res/bunny_ninja_level_1.png"
 ];
 
 var h = hexi(640, 480, setup, thingsToLoad);
