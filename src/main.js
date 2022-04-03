@@ -125,6 +125,7 @@ function levelReset(){
     // Reset Player Attributes
     player.death = false;
     player.score = 0;
+    player.collectedCount = 0;
     player.spawn.tip.visible = false;
     clearInterval(clockInterval);
 

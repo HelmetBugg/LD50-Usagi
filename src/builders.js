@@ -18,6 +18,7 @@ function player() {
   body.score = 0;
   body.coolDown = 6;
   body.teleportReady = true;
+  body.collectedCount = 0;
 
   body.update = function() {
     if(player.wouldBreakBounds({'x': player.x + player.vx, 'y': player.y + player.vy})){
@@ -38,6 +39,7 @@ function player() {
 
   body.teleport = function(newX, newY){
     if (!player.wouldBreakBounds({'x': newX, 'y': newY})){
+      player.clouds();
       player.teleportReady = false;
       player.graphic.tint = 0xe60000;
       var mapXOffset = player.x - newX;
@@ -53,6 +55,7 @@ function player() {
       }, body.coolDown*1000);
     }
     teleportSound.play();
+    player.clouds();
   }
 
   body.wouldBreakBounds = function(newXY){
@@ -65,8 +68,24 @@ function player() {
     return false;
   }
 
+  body.clouds = function() {
+    for (var i=0; i<3; i++){
+      var jitter = {
+        'x': h.randomInt(-12,10),
+        'y': h.randomInt(-12,10)
+      };
+      var cloud = h.circle(20, "white", "black", 0, body.x + jitter.x, body.y + jitter.y);
+      //h.rotateAroundSprite(cloud, player, 5, 0.14);
+      cloud.anchor.set(0.5, 0.5);
+      map.addChild(cloud);
+      var tween = h.fadeOut(cloud);
+      //tween.onComplete = () => h.remove(cloud);
+    }
+  }
+
   return body;
 }
+
 
 function collectable(x, y, score, sprite = "") {
   let container = h.circle(0, "white", "white", 2, x, y);
@@ -115,6 +134,12 @@ function collectable(x, y, score, sprite = "") {
     }
   }
   return container;
+}
+
+
+function hawk(x, y){
+  let hawk = guard(x, y, []);
+  return hawk;
 }
 
 
