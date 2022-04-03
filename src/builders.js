@@ -24,18 +24,20 @@ function player() {
   }
 
   body.teleport = function(newX, newY){
-    player.teleportReady = false;
-    player.tint = 0xe60000;
-    var mapXOffset = player.x - newX;
-    var mapYOffset = player.y - newY;
-    player.x = newX;
-    player.y = newY;
-    map.x += mapXOffset;
-    map.y += mapYOffset;
-    setTimeout(function(){
-      player.teleportReady = true;
-      player.tint = 0xffffff;
-    }, body.coolDown*1000);
+    if (!player.wouldBreakBounds({'x': newX, 'y': newY})){
+      player.teleportReady = false;
+      player.tint = 0xe60000;
+      var mapXOffset = player.x - newX;
+      var mapYOffset = player.y - newY;
+      player.x = newX;
+      player.y = newY;
+      map.x += mapXOffset;
+      map.y += mapYOffset;
+      setTimeout(function(){
+        player.teleportReady = true;
+        player.tint = 0xffffff;
+      }, body.coolDown*1000);
+    }
   }
 
   body.wouldBreakBounds = function(newXY){
@@ -128,7 +130,7 @@ function guard(x, y, waypoints) {
   guard.checkLineOfSight = function () {
     var result = true;
     vision.alpha = 0.55;
-    if (!h.lineOfSight(guard, player, [], 16)) {
+    if (!h.lineOfSight(guard, player, mapCollisions, 16)) {
       result = false;
     }
     var visionLocation ={
