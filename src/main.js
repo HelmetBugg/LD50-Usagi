@@ -1,6 +1,5 @@
 "use strict";
 let thingsToLoad = [
-  "res/735315.png",
   "res/bunny_thief_1.png",
   "res/farmer_1.png",
   "res/farmer_2.png",
@@ -128,6 +127,7 @@ function levelReset(){
     // Reset Player Attributes
     player.death = false;
     player.score = 0;
+    player.collectedCount = 0;
     player.spawn.tip.visible = false;
     clearInterval(clockInterval);
 
