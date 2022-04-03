@@ -24,7 +24,9 @@ let thingsToLoad = [
   "res/potato.png",
   "res/strawberry.png",
   "res/yam.png",
+
   "res/bunny_ninja_level_1.png",
+  "res/bunny_ninja_level_2.png",
 
   "sound/alarm_caught.wav",
   "sound/button_press.wav",
@@ -44,10 +46,12 @@ var mapCollectables = [];
 var mapCollisions = [];
 var clockGraphic;
 var clockInterval;
+var firstPlay = true;
 h.start();
 
 
 function setup() {
+  window.focus();
   var title = h.text("Bunny Ninja Heist", "75px Tahoma", "black");
   h.stage.putCenter(title);
   var startButton = h.text("Play", "45px Tahoma", "grey");
@@ -67,23 +71,31 @@ function setup() {
 }
 
 
-function firstPlay(){
+function firstPlaySetup(){
   document.addEventListener('keyup', handleKeyUp);
   document.addEventListener('keydown', handleKeyDown);
-  h.state = play;
 }
 
 
 function loadLevel(level){
-  map = h.sprite(level.graphic);
-  map.x -= level.spawn.x;
-  map.y -= level.spawn.y;
+  if(firstPlay){
+    firstPlaySetup();
+    firstPlay = false;
+    map = h.sprite(level.graphic);
+    player = player();
+    player.spawn = burrow(level.spawn.x + (h.canvas.width/2), level.spawn.y + (h.canvas.height/2)+30);
 
-  player = player();
+  } else {
+    map.texture = PIXI.Texture.from(level.graphic);
+    levelReset();
+  }
+  map.x = -level.spawn.x;
+  map.y = -level.spawn.y;
+
   player.x = level.spawn.x + (h.canvas.width/2);
   player.y = level.spawn.y + (h.canvas.height/2); 
-
-  player.spawn = burrow(level.spawn.x + (h.canvas.width/2), level.spawn.y + (h.canvas.height/2)+30);
+  player.spawn.x = level.spawn.x + (h.canvas.width/2);
+  player.spawn.y = level.spawn.y + (h.canvas.height/2)+30;
 
   var startTime = new Date();
   let getStart = startTime.getTime();
@@ -101,6 +113,31 @@ function loadLevel(level){
     colGraphic.alpha = 0.8;
     mapCollisions.push(colGraphic);
   } 
+  h.state = play;
+}
+
+
+function levelReset(){
+    // Reset PLayer Attributes
+    player.death = false;
+    player.score = 0;
+    player.spawn.tip.visible = false;
+
+    // Reset map objects
+    for(var npc of mapGuards){
+      cleanUp(npc);
+    } 
+    mapGuards = [];   
+
+    for(var cbl of mapCollisions){
+      cleanUp(cbl);
+    }
+    mapCollisions = [];   
+
+    for(var col of mapCollectables){
+      cleanUp(col);
+    }
+    mapCollectables = [];       
 }
 
 
@@ -124,7 +161,8 @@ function play() {
 
 
 function scoreBoard(){
-  var curtain = h.rectangle(h.canvas.width, h.canvas.height, "grey");
+  //cleanUp(map);
+  var curtain = h.rectangle(h.canvas.width, h.canvas.height, "darkgrey");
   curtain.alpha = 0;
   h.fadeIn(curtain);
   h.state = pause();
@@ -134,10 +172,9 @@ function scoreBoard(){
   var baseScore = 1000;
   var totalTime = Math.abs(et - player.st);
   var totalTimeScore = Math.floor(baseScore - totalTime); 
-    totalTimeScore = Math.max(totalTimeScore, 0);
-    player.tts = totalTimeScore;
+  totalTimeScore = Math.max(totalTimeScore, 0);
+  player.tts = totalTimeScore;
   var ultraScore = Math.max((player.score + player.tts), 0);
-
   if (player.death){
     player.score = 0;
     player.tts = 0;
@@ -145,9 +182,16 @@ function scoreBoard(){
   }
  
   var title = h.text("Score Summary", "45px Tahoma", "black", 10, 10);
-  var foodScore = h.text("Food Score" + "  " + player.score, "30px Tahoma", "light-grey", 50, 100);
-  var timeScore = h.text("Time Score" + "  " + player.tts, "30px Tahoma", "light-grey", 50, 200);
-  var level1Button = h.text("Total Score" + "  " + ultraScore, "30px Tahoma", "light-grey", 100, 300);
+  var foodScore = h.text("Food Score" + "  " + player.score, "30px Tahoma", "lightgrey", 50, 100);
+  var timeScore = h.text("Time Score" + "  " + player.tts, "30px Tahoma", "lightgrey", 50, 200);
+  var totalScore = h.text("Total Score" + "  " + ultraScore, "30px Tahoma", "lightgrey", 100, 300);  
+  var returnToLevelSelect = h.text("Return", "30px Tahoma", "black", 100, 400);
+  var menuGroup = h.group(curtain, title, foodScore, timeScore, totalScore, returnToLevelSelect);
+  returnToLevelSelect.interact = true;
+  returnToLevelSelect.press = () => { 
+    cleanUp(menuGroup);
+    levelSelect(); 
+  };
 }
 
 
@@ -156,27 +200,29 @@ function levelSelect(){
 Use "w","a","s" and "d" to move around.\n\
 Collect as many pieces of food from the \ngarden as fast as you can to score points.\n\
 Dont get spotted, hide in bushes and \navoid line of sight.\n\
-Use "e" to teleport where your cursor is.\nThis ability has a cooldown.\n\
+Use "c" to teleport where your cursor is.\nThis ability has a cooldown.\n\
 Return to burrow to exit level.\n\
   ', "20px Tahoma", "black", 260, 120);
 
   var title = h.text("Level Select", "45px Tahoma", "black");
   var level1Button = h.text("Level 1", "30px Tahoma", "light-grey");
   level1Button.y = 90;
-  var level2Button = h.text("Level 2", "30px Tahoma", "grey");
+  var level2Button = h.text("Level 2", "30px Tahoma", "light-grey");
   level2Button.y = 180;
   var level3Button = h.text("Level 3", "30px Tahoma", "grey");
   level3Button.y = 270;
+
+  var menuGroup = h.group(title, level2Button, level3Button, howToPlay, level1Button);
   level1Button.x = level2Button.x = level3Button.x = 50;
-  //level1Button.interact = level2Button.interact = 
   level1Button.interact = true;
-  level1Button.press = () => {
-    cleanUp(level1Button)
-    cleanUp(level2Button)
-    cleanUp(level3Button)
-    cleanUp(title)
+  level1Button.press = function() {
+    cleanUp(menuGroup);
     loadLevel(level1);
-    firstPlay();
+  }
+  level2Button.interact = true;
+  level2Button.press = function() {
+    cleanUp(menuGroup);
+    loadLevel(level2);
   }
 }
 
@@ -188,7 +234,6 @@ function startCountDown(){
   }
   var curtain = h.rectangle(h.canvas.width, h.canvas.height, "red");
   curtain.alpha = 0.25;
-  //h.fadeIn(curtain);
   clockGraphic = tooltip(0,0, "Time Remaining 30s");
   h.stage.putCenter(clockGraphic);
   clockGraphic.y -= 100;
