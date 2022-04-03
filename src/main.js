@@ -38,8 +38,8 @@ let thingsToLoad = [
 ];
 
 var h = hexi(640, 480, setup, thingsToLoad);
-h.debug = true;
-h.scaleToWindow();
+//h.debug = true;
+//h.scaleToWindow();
 var player;
 var map;
 var mapGuards = [];
@@ -77,7 +77,15 @@ function firstPlaySetup(){
   document.addEventListener('keyup', handleKeyUp);
   document.addEventListener('keydown', handleKeyDown);
   clockGraphic = tooltip(0,0, "Time Remaining 30s");
+  h.stage.putCenter(clockGraphic);
+  clockGraphic.stop = function(){
+    clearInterval(clockInterval);
+    h.remove(clockGraphic.curtain);
+    clockGraphic.visible = false;
+  }
   clockGraphic.visible = false;
+  clockGraphic.curtain = h.rectangle(h.canvas.width, h.canvas.height, "red");
+  clockGraphic.curtain.alpha = 0;
 }
 
 
@@ -256,11 +264,14 @@ function startCountDown(){
     guard.state = "seek";
     guard.target = player;
   }
-  var curtain = h.rectangle(h.canvas.width, h.canvas.height, "red");
-  curtain.alpha = 0.25;
-  clockGraphic = tooltip(0,0, "Time Remaining 30s");
+  clockGraphic.curtain.alpha = 0.25;
+  clockGraphic.text.text = "Time Remaining 30s";
   clockGraphic.visible = true;
-  h.stage.putCenter(clockGraphic);
+  h.stage.remove(clockGraphic);
+  h.stage.add(clockGraphic);
+  h.stage.remove(clockGraphic.curtain);
+  h.stage.add(clockGraphic.curtain);
+ 
   clockGraphic.y -= 100;
   clockGraphic.time = 30;
   clockGraphic.remaining = 30;
@@ -269,16 +280,9 @@ function startCountDown(){
     if (clockGraphic.remaining > 0){
       clockGraphic.remaining--;
     } else {
-      clockGraphic.stop();
       death();
     }
   }, 500);
-
-  clockGraphic.stop = function(){
-    clearInterval(clockInterval);
-    h.remove(curtain);
-    clockGraphic.visible = false;
-  }
 }
 
 
