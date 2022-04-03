@@ -80,7 +80,12 @@ const level1 = {
 
   ],
   "collisions": [
-    { 'x': 0, 'y': 0, 'width':100, 'height':20, 'sprite':"", 'value': 100 },
+    { 'x': 50, 'y': 1000, 'width': 500, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 692, 'y': 1000, 'width': 500, 'height':48, 'sprite':"", 'value': 100 },    
+    { 'x': 954, 'y': 768, 'width': 300, 'height':48, 'sprite':"", 'value': 100 }
+  ],
+  "bushes": [
+    { 'x': 0, 'y': 0, 'width':100, 'height':48, 'sprite':"", 'value': 100 },
     { 'x': 0, 'y': 0, 'width':100, 'height':200, 'sprite':"", 'value': 100 }
   ]
 }

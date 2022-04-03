@@ -41,6 +41,10 @@ let thingsToLoad = [
 var h = hexi(640, 480, setup, thingsToLoad);
 var player;
 var map;
+var debug = true;
+if(debug){
+  h.scaleToWindow();
+}
 var mapGuards = [];
 var mapCollectables = [];
 var mapCollisions = [];
@@ -125,9 +129,10 @@ function loadLevel(level){
   map.counter.text = "0/" + mapCollectables.length;
   map.counter.total = mapCollectables.length;
   for(var col of level.collisions){
-    var colGraphic = h.rectangle(col.width, col.height, "forestgreen", "black", 0, col.x, col.y)
+    var colGraphic = h.rectangle(col.width, col.height, "yellow", "black", 0, col.x, col.y)
     map.addChild(colGraphic)
-    colGraphic.alpha = 0.8;
+    colGraphic.alpha = 0.5;
+    colGraphic.visible = debug;
     mapCollisions.push(colGraphic);
   } 
   h.state = play;
@@ -197,7 +202,7 @@ function scoreBoard(){
   var finalScore = player.score + timeScore + bonus;
   if (player.death){
     player.score = 0;
-    player.tts = 0;
+    timeScore = 0;
     finalScore = 0;
     bonus = 0;
   }

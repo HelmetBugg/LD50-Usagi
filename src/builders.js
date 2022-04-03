@@ -24,7 +24,9 @@ function player() {
   body.collectedCount = 0;
 
   body.update = function() {
-    if(player.wouldBreakBounds({'x': player.x + player.vx, 'y': player.y + player.vy})){
+    var causeCollision = body.collisionCheck(player.x + player.vx, player.y + player.vy, player.graphic.width, player.graphic.height);
+    var breakBounds = player.wouldBreakBounds({'x': player.x + player.vx, 'y': player.y + player.vy})
+    if(causeCollision || breakBounds){
       player.vx = 0;
       player.vy = 0;
       map.vx = 0;
@@ -38,6 +40,15 @@ function player() {
     } else {
        player.spawn.tip.visible = false;
     }
+  }
+
+  body.collisionCheck = function(x, y, width, height){
+    for (var col of mapCollisions){
+      if (h.hitTestPoint({'x': x, 'y': y, 'width': width, 'height': height}, col)){
+        return true;
+      }
+    }
+    return false;
   }
 
   body.teleport = function(newX, newY){
@@ -72,10 +83,10 @@ function player() {
   }
 
   body.clouds = function() {
-    for (var i=0; i<3; i++){
+    for (var i=0; i<5; i++){
       var jitter = {
-        'x': h.randomInt(-12,10),
-        'y': h.randomInt(-12,10)
+        'x': h.randomInt(-15,15),
+        'y': h.randomInt(-15,15)
       };
       var cloud = h.circle(20, "white", "black", 0, body.x + jitter.x, body.y + jitter.y);
       cloud.alpha = 0.8;
@@ -262,6 +273,5 @@ function burrow(x, y){
   sprite.tip = tooltip(0, 0, "Press 'E' to Escape.");
   sprite.tip.visible = false;
   sprite.addChild(sprite.tip);
-
   return sprite;
 }
