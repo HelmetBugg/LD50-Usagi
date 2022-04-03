@@ -118,13 +118,15 @@ function loadLevel(level){
 
 
 function levelReset(){
-    // Reset PLayer Attributes
+    // Reset Player Attributes
     player.death = false;
     player.score = 0;
     player.spawn.tip.visible = false;
+    clearInterval(clockInterval);
 
     // Reset map objects
     for(var npc of mapGuards){
+      cleanUp(npc.vision);
       cleanUp(npc);
     } 
     mapGuards = [];   
@@ -196,6 +198,7 @@ function scoreBoard(){
 
 
 function levelSelect(){
+  var curtain = h.rectangle(h.canvas.width, h.canvas.height, "darkgrey");
   var howToPlay = h.text('\How To Play\n\
 Use "w","a","s" and "d" to move around.\n\
 Collect as many pieces of food from the \ngarden as fast as you can to score points.\n\
@@ -216,6 +219,8 @@ Return to burrow to exit level.\n\
   level1Button.x = level2Button.x = level3Button.x = 50;
   level1Button.interact = true;
   level1Button.press = function() {
+    var tween = h.fadeOut(curtain)
+    tween.onComplete = () => cleanUp(curtain);
     cleanUp(menuGroup);
     loadLevel(level1);
   }

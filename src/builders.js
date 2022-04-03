@@ -1,6 +1,6 @@
 "use strict";
 function player() {
-  var body = h.circle(15, "black", "black", 0, 0, 0);
+  var body = h.circle(18, "black", "black", 0, 0, 0);
   body.anchor.set(0.5, 0.5);
   map.addChild(body);
 
@@ -78,7 +78,7 @@ function collectable(x, y, score, sprite = "") {
     collectable = h.sprite(sprite);
     collectable.scaleX = collectable.scaleY = 1.8;
   }
-  let collison = h.rectangle(16, 16, "black", "white", 0, container.x, container.y);
+  let collison = h.rectangle(20, 20, "black", "white", 0, container.x, container.y);
   let shadow = h.circle(16, "black", "black", 2, 0, 25);
   shadow.alpha = 0.25;
   collison.visible = false;
@@ -136,13 +136,6 @@ function guard(x, y, waypoints) {
   guard.target = guard.waypoints[guard.waypointIncrement];
   guard.speed = 1.5;
   guard.rotationSpeed = 0.05;
-  /*if (h.debug) {
-    for (const w of guard.waypoints) {
-      let waypoint = h.circle(8, "orange", "black", 0, w.x, w.y);
-      waypoint.setPivot(0.5, 0.5);
-      map.addChild(waypoint);
-    }
-  }*/
 
   // Line of sight boilerplate
   var range = 200;
