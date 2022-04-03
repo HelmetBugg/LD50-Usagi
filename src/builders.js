@@ -43,6 +43,7 @@ function player() {
   body.teleport = function(newX, newY){
     if (!player.wouldBreakBounds({'x': newX, 'y': newY})){
       player.clouds();
+      teleportSound.play();
       player.teleportReady = false;
       player.graphic.tint = 0xe60000;
       var mapXOffset = player.x - newX;
@@ -57,7 +58,6 @@ function player() {
         teleportReadySound.play();
       }, body.coolDown*1000);
     }
-    teleportSound.play();
     player.clouds();
   }
 

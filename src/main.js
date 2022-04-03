@@ -50,11 +50,11 @@ var clockInterval;
 var firstPlay = true;
 var music;
 h.start();
-
+h.backgroundColor = "black";
 
 function setup() {
   window.focus();
-  var title = h.text("Bunny Ninja Heist", "75px Tahoma", "black");
+  var title = h.text("Bunny Ninja Heist", "75px Tahoma", "white");
   h.stage.putCenter(title);
   var startButton = h.text("Play", "45px Tahoma", "grey");
   var credits = h.text("Credits: Brandon W, Ben K. \n Food: ARoachIFoundOnMyPillow", "15px Tahoma", "darkgrey");
@@ -76,6 +76,8 @@ function setup() {
 function firstPlaySetup(){
   document.addEventListener('keyup', handleKeyUp);
   document.addEventListener('keydown', handleKeyDown);
+  clockGraphic = tooltip(0,0, "Time Remaining 30s");
+  clockGraphic.visible = false;
 }
 
 
@@ -131,7 +133,7 @@ function levelReset(){
     player.score = 0;
     player.collectedCount = 0;
     player.spawn.tip.visible = false;
-    clearInterval(clockInterval);
+    clockGraphic.stop();
 
     // Reset map objects
     for(var npc of mapGuards){
@@ -197,7 +199,7 @@ function scoreBoard(){
   var returnToLevelSelect = h.text("Return", "45px Tahoma", "black", 20, 400);
   var scores  = h.text("\
   Food Score" + "       " + player.score + "\n\
-  Time Score" + "       " + timeScore + "\n\
+  Time Bonus" + "       " + timeScore + "\n\
   Completion Bonus" + "   " + bonus + "\n\n\
       Total Score" + "   " + finalScore + "\
   ", "45px Tahoma", "lightgrey", 50, 100);
@@ -257,6 +259,7 @@ function startCountDown(){
   var curtain = h.rectangle(h.canvas.width, h.canvas.height, "red");
   curtain.alpha = 0.25;
   clockGraphic = tooltip(0,0, "Time Remaining 30s");
+  clockGraphic.visible = true;
   h.stage.putCenter(clockGraphic);
   clockGraphic.y -= 100;
   clockGraphic.time = 30;
@@ -266,10 +269,16 @@ function startCountDown(){
     if (clockGraphic.remaining > 0){
       clockGraphic.remaining--;
     } else {
-      clearInterval(clockInterval);
+      clockGraphic.stop();
       death();
     }
   }, 500);
+
+  clockGraphic.stop = function(){
+    clearInterval(clockInterval);
+    h.remove(curtain);
+    clockGraphic.visible = false;
+  }
 }
 
 
@@ -281,7 +290,7 @@ function cleanUp(input){
 
 function death(){
   player.death = true;
-  clearInterval(clockInterval);
+  clockGraphic.stop();
   scoreBoard();
 };
 
