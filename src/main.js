@@ -71,6 +71,9 @@ function play() {
 }
 
 function scoreBoard(){
+  var curtain = h.rectangle(h.canvas.width, h.canvas.height, "grey");
+  curtain.alpha = 0;
+  h.fadeIn(curtain);
   h.state = pause();
   var title = h.text("Score Summary", "45px Tahoma", "black", 10, 10);
   var foodScore = h.text("Food Score", "30px Tahoma", "light-grey", 50, 100);
@@ -111,7 +114,6 @@ function startCountDown(){
   clockGraphic.remaining = 30;
   clockInterval = setInterval(() => {
     clockGraphic.text.text = "Time Remaining " + clockGraphic.remaining + "s";
-    //console.log( "Time Remaining " + clockGraphic.remaining);
     if (clockGraphic.remaining > 0){
       clockGraphic.remaining--;
     } else {
