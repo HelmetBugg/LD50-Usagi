@@ -6,8 +6,11 @@ function player() {
 
   var teleportSound = h.sound("sound/teleport.wav");
   var teleportReadySound = h.sound("sound/teleport_ready.wav");
-  
-  //player.pickupSound = foodSound;
+  var teleportFailSound = h.sound("sound/teleportFail.wav");
+  teleportSound.volume = 0.5;
+  teleportReadySound.volume = 0.5;
+  teleportFailSound.volume = 0.5;
+
   var graphic = h.sprite("res/bunny_thief_1.png");
   graphic.anchor.set(0.5, 0.5);
   graphic.rotation = 1.45;
@@ -53,6 +56,7 @@ function player() {
       }, body.coolDown*1000);
     }
     teleportSound.play();
+    
   }
 
   body.wouldBreakBounds = function(newXY){
