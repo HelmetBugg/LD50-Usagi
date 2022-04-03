@@ -6,6 +6,7 @@ let thingsToLoad = [
 var h = hexi(640, 480, setup, thingsToLoad);
 h.debug = true;
 h.scaleToWindow();
+h.background = "black";
 var player;
 var map;
 var mapGuards = [];

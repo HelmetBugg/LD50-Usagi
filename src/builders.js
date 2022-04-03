@@ -2,18 +2,26 @@
 function player() {
   var body = h.circle(32, "white", "black", 2, 0, 0);
   var head = h.rectangle(16, 16, "white", "black", 2, 0, 0);
+  body.speed = 4;
   body.setPivot(0.5, 0.5);
   body.addChild(head);
   head.rotation = -0.8;
   map.addChild(body);
+  body.score = 0;
+  body.coolDown = 6;
+  body.teleportReady = true;
+
   body.update = function() {
+    if(player.wouldBreakBounds({'x': player.x + player.vx, 'y': player.y + player.vy})){
+      player.vx = 0;
+      player.vy = 0;
+      map.vx = 0;
+      map.vy = 0;
+    }
     h.move(player);
     h.move(map);
     player.rotation = findPlayerAngle(h.pointer);
   }
-  body.score = 0;
-  body.coolDown = 6;
-  body.teleportReady = true;
 
   body.teleport = function(newX, newY){
     player.teleportReady = false;
@@ -29,6 +37,17 @@ function player() {
       player.tint = 0xffffff;
     }, body.coolDown*1000);
   }
+
+  body.wouldBreakBounds = function(newXY){
+    if(newXY.x <= 0 || newXY.x >= map.width){
+      return true;
+    }
+    if(newXY.y <= 0 || newXY.y >= map.height){
+      return true;
+    }
+    return false;
+  }
+
   return body;
 }
 

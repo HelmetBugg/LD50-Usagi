@@ -1,19 +1,19 @@
 function handleKeyDown(event) {
   if (event.key =='w'){
-    player.vy = -5;
-    map.vy = 5;
+      player.vy = -player.speed;
+      map.vy = player.speed;
   };  
   if (event.key =='a'){
-    player.vx = -5;
-    map.vx = 5;
+    player.vx = -player.speed;
+    map.vx = player.speed;
   };
   if (event.key =='s'){
-    player.vy = 5;
-    map.vy = -5;
+    player.vy = player.speed;
+    map.vy = -player.speed;
   };
   if (event.key =='d'){
-    player.vx = 5;
-    map.vx = -5;
+    player.vx = player.speed;
+    map.vx = -player.speed;
   };  
 }
 
