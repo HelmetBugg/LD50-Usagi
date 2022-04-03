@@ -33,7 +33,8 @@ let thingsToLoad = [
   "sound/food.wav",
   "sound/teleport_ready.wav",
   "sound/teleport.wav",
-  "sound/usagi3.wav"
+  "sound/teleportFail.wav",
+  "sound/usagiFull.wav"
 ];
 
 var h = hexi(640, 480, setup, thingsToLoad);
@@ -92,7 +93,8 @@ function loadLevel(level){
   }
   map.x = -level.spawn.x;
   map.y = -level.spawn.y;
-  music = h.sound("sound/usagi3.wav");
+  music = h.sound("sound/usagiFull.wav");
+  music.volume = 5.5;
   music.loop = true;
   music.play();
 
