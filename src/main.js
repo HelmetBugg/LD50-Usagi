@@ -1,6 +1,5 @@
 "use strict";
 let thingsToLoad = [
-  "res/735315.png",
   "res/bunny_thief_1.png",
   "res/farmer_1.png",
   "res/farmer_2.png",
