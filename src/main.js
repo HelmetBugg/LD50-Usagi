@@ -31,7 +31,8 @@ let thingsToLoad = [
   "sound/caught.wav",
   "sound/food.wav",
   "sound/teleport_ready.wav",
-  "sound/teleport.wav"
+  "sound/teleport.wav",
+  "sound/usagi3.wav"
 ];
 
 var h = hexi(640, 480, setup, thingsToLoad);
@@ -78,6 +79,10 @@ function loadLevel(level){
   map = h.sprite(level.graphic);
   map.x -= level.spawn.x;
   map.y -= level.spawn.y;
+
+  var music = h.sound("sound/usagi3.wav");
+  music.loop = true;
+  music.play();
 
   player = player();
   player.x = level.spawn.x + (h.canvas.width/2);
