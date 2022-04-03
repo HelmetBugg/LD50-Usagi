@@ -40,6 +40,7 @@ function loadLevel(level){
   map.x -= level.spawn.x;
   map.y -= level.spawn.y;
   player = player();
+
   player.x = level.spawn.x + (h.canvas.width/2);
   player.y = level.spawn.y + (h.canvas.height/2); 
   var startTime = new Date();
