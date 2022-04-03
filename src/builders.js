@@ -4,6 +4,8 @@ function player() {
   body.anchor.set(0.5, 0.5);
   map.addChild(body);
 
+  teleportSound = h.sound("sounds/teleport.wav");
+
   var graphic = h.sprite("res/bunny_thief_1.png");
   graphic.anchor.set(0.5, 0.5);
   graphic.rotation = 1.45;
@@ -42,6 +44,7 @@ function player() {
         player.graphic.tint = 0xffffff;
       }, body.coolDown*1000);
     }
+    teleportSound.play();
   }
 
   body.wouldBreakBounds = function(newXY){
