@@ -48,6 +48,7 @@ if(debug){
 var mapGuards = [];
 var mapCollectables = [];
 var mapCollisions = [];
+var mapBushes = [];
 var clockGraphic;
 var clockInterval;
 var firstPlay = true;
@@ -77,6 +78,7 @@ function setup() {
 
 
 function firstPlaySetup(){
+  firstPlay = false;
   document.addEventListener('keyup', handleKeyUp);
   document.addEventListener('keydown', handleKeyDown);
   clockGraphic = tooltip(0,0, "Time Remaining 30s");
@@ -95,7 +97,6 @@ function firstPlaySetup(){
 function loadLevel(level){
   if(firstPlay){
     firstPlaySetup();
-    firstPlay = false;
     map = h.sprite(level.graphic);
     player = player();
     player.spawn = burrow(level.spawn.x + (h.canvas.width/2), level.spawn.y + (h.canvas.height/2)+30);
@@ -106,6 +107,7 @@ function loadLevel(level){
   }
   map.x = -level.spawn.x;
   map.y = -level.spawn.y;
+
   music = h.sound("sound/usagiFull.wav");
   music.volume = 5.5;
   music.loop = true;
@@ -135,6 +137,14 @@ function loadLevel(level){
     colGraphic.visible = debug;
     mapCollisions.push(colGraphic);
   } 
+
+  for(var bsh of level.bushes){
+    var bshGraphic = h.rectangle(bsh.width, bsh.height, "forestgreen", "black", 0, bsh.x, bsh.y)
+    map.addChild(bshGraphic)
+    bshGraphic.alpha = 0.75;
+    //bshGraphic.visible = debug;
+    mapBushes.push(bshGraphic);
+  } 
   h.state = play;
 }
 
@@ -160,7 +170,11 @@ function levelReset(){
     for(var col of mapCollectables){
       cleanUp(col);
     }
-    mapCollectables = [];       
+    mapCollectables = [];     
+    for(var bsh of mapBushes){
+      cleanUp(bsh);
+    }
+    mapBushes = [];     
 }
 
 

@@ -187,7 +187,7 @@ function guard(x, y, waypoints) {
   guard.checkLineOfSight = function () {
     var result = true;
     vision.alpha = 0.55;
-    if (!h.lineOfSight(guard, player, mapCollisions, 16)) {
+    if (!h.lineOfSight(guard, player, mapBushes.concat(mapCollisions), 16)) {
       result = false;
     }
     var visionLocation ={

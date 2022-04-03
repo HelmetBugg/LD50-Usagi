@@ -82,11 +82,18 @@ const level1 = {
   "collisions": [
     { 'x': 50, 'y': 1000, 'width': 500, 'height':48, 'sprite':"", 'value': 100 },
     { 'x': 692, 'y': 1000, 'width': 500, 'height':48, 'sprite':"", 'value': 100 },    
-    { 'x': 954, 'y': 768, 'width': 300, 'height':48, 'sprite':"", 'value': 100 }
+    { 'x': 954, 'y': 768, 'width': 300, 'height':48, 'sprite':"", 'value': 100 },    
+    { 'x': 954, 'y': 388, 'width': 300, 'height':48, 'sprite':"", 'value': 100 }, 
+    { 'x': 250, 'y': 98, 'width': 48, 'height':708, 'sprite':"", 'value': 100 }, 
+    { 'x': 710, 'y': 98, 'width': 48, 'height':708, 'sprite':"", 'value': 100 }, 
+    { 'x': 250, 'y': 98, 'width': 200, 'height':48, 'sprite':"", 'value': 100 },    
+    { 'x': 250, 'y': 768, 'width': 200, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 565, 'y': 98, 'width': 200, 'height':48, 'sprite':"", 'value': 100 },    
+    { 'x': 565, 'y': 768, 'width': 200, 'height':48, 'sprite':"", 'value': 100 }
   ],
   "bushes": [
-    { 'x': 0, 'y': 0, 'width':100, 'height':48, 'sprite':"", 'value': 100 },
-    { 'x': 0, 'y': 0, 'width':100, 'height':200, 'sprite':"", 'value': 100 }
+    { 'x': 630, 'y': 812, 'width':100, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 256, 'y': 2, 'width':800, 'height':48, 'sprite':"", 'value': 100 }
   ]
 }
 
@@ -172,5 +179,8 @@ const level2 = {
   "collisions": [
     { 'x': 0, 'y': 0, 'width':100, 'height':20, 'sprite':"", 'value': 100 },
     { 'x': 0, 'y': 0, 'width':100, 'height':200, 'sprite':"", 'value': 100 }
+  ],
+  "bushes": [
+    { 'x': 630, 'y': 812, 'width':0, 'height':0, 'sprite':"", 'value': 100 }
   ]
 }
