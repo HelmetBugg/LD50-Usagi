@@ -26,6 +26,7 @@ let thingsToLoad = [
 
   "res/bunny_ninja_level_1.png",
   "res/bunny_ninja_level_2.png",
+  "res/bunny_ninja_level_3.png",
 
   "sound/alarm_caught.wav",
   "sound/button_press.wav",
@@ -38,8 +39,6 @@ let thingsToLoad = [
 ];
 
 var h = hexi(640, 480, setup, thingsToLoad);
-//h.debug = true;
-//h.scaleToWindow();
 var player;
 var map;
 var mapGuards = [];
