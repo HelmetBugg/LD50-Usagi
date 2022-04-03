@@ -10,6 +10,8 @@ var player;
 var map;
 var mapGuards = [];
 var mapCollectables = [];
+var clockGraphic;
+var clockInterval;
 h.start();
 
 function setup() {
@@ -102,6 +104,21 @@ function startCountDown(){
     guard.state = "seek";
     guard.target = player;
   }
+  clockGraphic = tooltip(0,0, "Time Remaining 30s");
+  h.stage.putCenter(clockGraphic);
+  clockGraphic.y -= 100;
+  clockGraphic.time = 30;
+  clockGraphic.remaining = 30;
+  clockInterval = setInterval(() => {
+    clockGraphic.text.text = "Time Remaining " + clockGraphic.remaining + "s";
+    //console.log( "Time Remaining " + clockGraphic.remaining);
+    if (clockGraphic.remaining > 0){
+      clockGraphic.remaining--;
+    } else {
+      clearInterval(clockInterval);
+      death();
+    }
+  }, 500);
 }
 
 function cleanUp(input){

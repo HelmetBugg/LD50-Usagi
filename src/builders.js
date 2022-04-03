@@ -120,12 +120,11 @@ function guard(x, y, waypoints) {
     if(h.hitTestCircle(guard, player)){
       death();
     }
-
-    if(guard.checkLineOfSight()){
-      startCountDown();
-    }
-    if (guard.state = "patrol"){
+    if (guard.state === "patrol"){
       guard.targetCheck();
+      if(guard.checkLineOfSight()){
+        startCountDown();
+      }
     }
     // Turn guard to face target.
     if (Math.floor(guard.rotation * 10) < Math.floor(h.angle(guard, guard.target) * 10)) {
@@ -165,5 +164,6 @@ function tooltip(x, y, text){
   menu.addChild(text);
   menu.anchor.set(0.5, 0.5);
   text.anchor.set(0.5, 0.5);
+  menu.text = text;
   return menu;
 }
