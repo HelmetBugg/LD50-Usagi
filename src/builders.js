@@ -4,8 +4,10 @@ function player() {
   body.anchor.set(0.5, 0.5);
   map.addChild(body);
 
-  teleportSound = h.sound("sounds/teleport.wav");
-
+  var teleportSound = h.sound("sound/teleport.wav");
+  var teleportReadySound = h.sound("sound/teleport_ready.wav");
+  
+  //player.pickupSound = foodSound;
   var graphic = h.sprite("res/bunny_thief_1.png");
   graphic.anchor.set(0.5, 0.5);
   graphic.rotation = 1.45;
@@ -42,6 +44,7 @@ function player() {
       setTimeout(function(){
         player.teleportReady = true;
         player.graphic.tint = 0xffffff;
+        teleportReadySound.play();
       }, body.coolDown*1000);
     }
     teleportSound.play();
@@ -62,6 +65,7 @@ function player() {
 
 function collectable(x, y, score, sprite = "") {
   let container = h.circle(0, "white", "white", 2, x, y);
+  var foodSound = h.sound("sound/food.wav");
   let collectable;
   if (sprite == ""){
     collectable = h.circle(16, "gold", "black", 2, 0, 0);
@@ -93,6 +97,7 @@ function collectable(x, y, score, sprite = "") {
       var index = container.find();
       mapCollectables.splice(index, 1);
       h.remove(container);
+      foodSound.play();
       container.popup()
     }
   }

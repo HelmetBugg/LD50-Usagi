@@ -22,12 +22,6 @@ let thingsToLoad = [
   "res/potato.png",
   "res/strawberry.png",
   "res/yam.png",
-  "sound/alarm_caught.wav",
-  "sound/button_press.wav",
-  "sound/caught.wav",
-  "sound/food.wav",
-  "sound/teleport_ready.wav",
-  "sound/teleport.wav"
 ];
 
 var h = hexi(640, 480, setup, thingsToLoad);
