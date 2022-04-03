@@ -87,7 +87,7 @@ const level1 = {
 
 const level2 = {
   "graphic": "res/bunny_ninja_level_2.png",
-  "spawn": { 'x': 798, 'y': 656 },
+  "spawn": { 'x': 352, 'y': 1056 },
   "npcs": [
     {'x': 172, 'y': 876, 'sprite': "", 'path': [
       { 'x': 172, 'y': 876, 'width': 10, 'height': 10 },
