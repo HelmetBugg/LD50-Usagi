@@ -7,9 +7,9 @@ function player() {
   var teleportSound = h.sound("sound/teleport.wav");
   var teleportReadySound = h.sound("sound/teleport_ready.wav");
   var teleportFailSound = h.sound("sound/teleportFail.wav");
-  teleportSound.volume = 0.5;
-  teleportReadySound.volume = 0.5;
-  teleportFailSound.volume = 0.5;
+  teleportSound.volume = 0.25;
+  teleportReadySound.volume = 0.25;
+  teleportFailSound.volume = 0.25;
 
   var graphic = h.sprite("res/bunny_thief_1.png");
   graphic.anchor.set(0.5, 0.5);
@@ -92,6 +92,7 @@ function player() {
 function collectable(x, y, score, sprite = "") {
   let container = h.circle(0, "white", "white", 2, x, y);
   var foodSound = h.sound("sound/food.wav");
+  foodSound.volume = 0.25;
   let collectable;
   if (sprite == ""){
     collectable = h.circle(16, "gold", "black", 2, 0, 0);
