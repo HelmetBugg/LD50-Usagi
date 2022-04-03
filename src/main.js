@@ -80,7 +80,7 @@ function firstPlaySetup(){
   h.stage.putCenter(clockGraphic);
   clockGraphic.stop = function(){
     clearInterval(clockInterval);
-    h.remove(clockGraphic.curtain);
+    clockGraphic.curtain.alpha = 0;
     clockGraphic.visible = false;
   }
   clockGraphic.visible = false;
