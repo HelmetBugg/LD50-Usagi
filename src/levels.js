@@ -24,12 +24,12 @@ const level1 = {
     ] }
   ],
   "collectables": [
-    { 'x': 10, 'y': 150, 'sprite':"", 'value': 100 },
-    { 'x': 10, 'y': 250, 'sprite':"", 'value': 100 },
-    { 'x': 10, 'y': 350, 'sprite':"", 'value': 100 },
-    { 'x': 500, 'y': 500, 'sprite':"", 'value': 100 },
-    { 'x': 600, 'y': 500, 'sprite':"", 'value': 100 },
-    { 'x': 700, 'y': 500, 'sprite':"", 'value': 100 }
+    { 'x': 10, 'y': 150, 'sprite':"res/apple_green.png", 'value': 100 },
+    { 'x': 10, 'y': 250, 'sprite':"res/celery.png", 'value': 100 },
+    { 'x': 10, 'y': 350, 'sprite':"res/lettuce.png", 'value': 100 },
+    { 'x': 500, 'y': 500, 'sprite':"res/strawberry.png", 'value': 100 },
+    { 'x': 600, 'y': 500, 'sprite':"res/yam.png", 'value': 100 },
+    { 'x': 700, 'y': 500, 'sprite':"res/grapes_purple.png", 'value': 100 }
   ],
   "collisions": [
     { 'x': 190, 'y': 100, 'width':100, 'height':200, 'sprite':"", 'value': 100 },

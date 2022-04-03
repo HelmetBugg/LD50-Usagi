@@ -4,8 +4,25 @@ let thingsToLoad = [
   "res/bunny_thief_1.png",
   "res/farmer_1.png",
   "res/farmer_2.png",
-  "res/farmer_3.png"
-]
+  "res/farmer_3.png",
+  "res/apple_green.png",
+  "res/apple_red.png",
+  "res/beet.png",
+  "res/bell_pepper_red.png",
+  "res/blueberries.png",
+  "res/brocooli.png",
+  "res/cabbage.png",
+  "res/carrot.png",
+  "res/cauliflower.png",
+  "res/celery.png",
+  "res/donut_pink.png",
+  "res/eggplant.png",
+  "res/grapes_purple.png",
+  "res/lettuce.png",
+  "res/potato.png",
+  "res/strawberry.png",
+  "res/yam.png"
+];
 
 var h = hexi(640, 480, setup, thingsToLoad);
 h.debug = true;
@@ -23,7 +40,7 @@ function setup() {
   var title = h.text("Bunny Ninja Heist", "75px Tahoma", "black");
   h.stage.putCenter(title);
   var startButton = h.text("Play", "45px Tahoma", "grey");
-  var credits = h.text("Credits: Brandon W, Ben K. \n Art: ARoachIFoundOnMyPillow", "15px Tahoma", "darkgrey");
+  var credits = h.text("Credits: Brandon W, Ben K. \n Food: ARoachIFoundOnMyPillow", "15px Tahoma", "darkgrey");
   h.stage.putBottom(credits);
   credits.y -= 50; 
   h.stage.putCenter(startButton);
@@ -61,7 +78,7 @@ function loadLevel(level){
     mapGuards.push(guard(npc.x, npc.y, npc.path));
   }
   for(var cbl of level.collectables){
-    mapCollectables.push(collectable(cbl.x, cbl.y, cbl.value));
+    mapCollectables.push(collectable(cbl.x, cbl.y, cbl.value, cbl.sprite));
   }  
   for(var col of level.collisions){
     var colGraphic = h.rectangle(col.width, col.height, "forestgreen", "black", 0, col.x, col.y)
@@ -141,6 +158,9 @@ function startCountDown(){
     guard.state = "seek";
     guard.target = player;
   }
+  var curtain = h.rectangle(h.canvas.width, h.canvas.height, "red");
+  curtain.alpha = 0.25;
+  //h.fadeIn(curtain);
   clockGraphic = tooltip(0,0, "Time Remaining 30s");
   h.stage.putCenter(clockGraphic);
   clockGraphic.y -= 100;

@@ -59,7 +59,13 @@ function player() {
 
 function collectable(x, y, score, sprite = "") {
   let container = h.circle(0, "white", "white", 2, x, y);
-  let collectable = h.circle(16, "gold", "black", 2, 0, 0);
+  let collectable;
+  if (sprite == ""){
+    collectable = h.circle(16, "gold", "black", 2, 0, 0);
+  } else {
+    collectable = h.sprite(sprite);
+    collectable.scaleX = collectable.scaleY = 1.4;
+  }
   let collison = h.rectangle(16, 16, "black", "white", 0, container.x, container.y);
   let shadow = h.circle(16, "black", "black", 2, 0, 25);
   shadow.alpha = 0.25;
@@ -166,7 +172,9 @@ function guard(x, y, waypoints) {
     if (guard.state === "patrol"){
       guard.targetCheck();
       if(guard.checkLineOfSight()){
-        startCountDown();
+        guard.state = "seek";
+        guard.target = player;
+        setTimeout(startCountDown, 100);
       }
     }
     // Turn guard to face target.
