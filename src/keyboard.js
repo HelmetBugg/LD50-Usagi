@@ -39,6 +39,18 @@ function handleKeyUp(event) {
       scoreBoard();
     }
   };
+  if (event.isComposing || event.key =='c'){
+    //console.log(h.pointer.x, h.pointer.y);
+    //map.addChild(h.circle(32, "blue", "black", 0, h.pointer.x - map.x, h.pointer.y - map.y))
+    var newX = h.pointer.x - map.x;
+    var newY = h.pointer.y - map.y;
+    var mapXOffset = player.x - newX;
+    var mapYOffset = player.y - newY;
+    player.x = newX;
+    player.y = newY;
+    map.x += mapXOffset;
+    map.y += mapYOffset;
+  };
 }
 
 function preventUseOfDefaultKeys(event) {
