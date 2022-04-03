@@ -30,5 +30,9 @@ const level1 = {
     { 'x': 500, 'y': 500, 'sprite':"", 'value': 100 },
     { 'x': 600, 'y': 500, 'sprite':"", 'value': 100 },
     { 'x': 700, 'y': 500, 'sprite':"", 'value': 100 }
+  ],
+  "collisions": [
+    { 'x': 190, 'y': 100, 'width':100, 'height':200, 'sprite':"", 'value': 100 },
+    { 'x': 500, 'y': 550, 'width':100, 'height':200, 'sprite':"", 'value': 100 },
   ]
 }

@@ -11,6 +11,7 @@ var player;
 var map;
 var mapGuards = [];
 var mapCollectables = [];
+var mapCollisions = [];
 var clockGraphic;
 var clockInterval;
 h.start();
@@ -55,6 +56,12 @@ function loadLevel(level){
   for(var cbl of level.collectables){
     mapCollectables.push(collectable(cbl.x, cbl.y, cbl.value));
   }  
+  for(var col of level.collisions){
+    var colGraphic = h.rectangle(col.width, col.height, "forestgreen", "black", 0, col.x, col.y)
+    map.addChild(colGraphic)
+    colGraphic.alpha = 0.8;
+    mapCollisions.push(colGraphic);
+  } 
 }
 
 function findPlayerAngle(t1) {
@@ -150,8 +157,8 @@ function cleanUp(input){
 
 function death(){
   player.death = true;
+  clearInterval(clockInterval);
   scoreBoard();
-  
 };
 
 function pause(){};
