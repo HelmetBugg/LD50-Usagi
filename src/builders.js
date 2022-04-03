@@ -65,6 +65,7 @@ function guard(x, y, waypoints) {
   guard.setPivot(0.5, 0.5);
   guard.addChild(head);
   map.addChild(guard);
+  guard.state = "patrol";
 
   // Path finding boilerplate
   // waypoints, without height/width distance function doesn't work.
@@ -100,7 +101,7 @@ function guard(x, y, waypoints) {
       'width': 1,
       'height': 1
     };
-    if (range-10 <= h.distance(visionLocation, player)) {
+    if(range-10 <= h.distance(visionLocation, player)) {
       result = false;
       vision.alpha = 0.25;
     }
@@ -116,23 +117,29 @@ function guard(x, y, waypoints) {
     guard.vision.x = guard.x;
     guard.vision.y = guard.y;
     guard.vision.rotation = guard.rotation + -0.8;
-    guard.checkLineOfSight();
-    guard.targetCheck();
+    if(h.hitTestCircle(guard, player)){
+      death();
+    }
+
+    if(guard.checkLineOfSight()){
+      startCountDown();
+    }
+    if (guard.state = "patrol"){
+      guard.targetCheck();
+    }
     // Turn guard to face target.
     if (Math.floor(guard.rotation * 10) < Math.floor(h.angle(guard, guard.target) * 10)) {
       guard.rotation += guard.rotationSpeed;
     } else if (Math.floor(guard.rotation * 10) > Math.floor(h.angle(guard, guard.target) * 10)) {
       guard.rotation -= guard.rotationSpeed;
     }
-    /*
-    var distanceRight = Math.abs(Math.floor(guard.rotation * 100) - Math.floor(h.angle(guard, guard.target) * 100))
+    /*var distanceRight = Math.abs(Math.floor(guard.rotation * 100) - Math.floor(h.angle(guard, guard.target) * 100))
     var distanceLeft = Math.abs(Math.floor(guard.rotation * 100) - Math.floor(h.angle(guard, guard.target) * 100))
     if (distanceRight < distanceLeft) {
       guard.rotation += guard.rotationSpeed;
     } else {
       guard.rotation -= guard.rotationSpeed;
     }*/
-
     h.followConstant(guard, guard.target, guard.speed);
   }
 

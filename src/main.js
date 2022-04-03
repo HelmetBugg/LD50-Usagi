@@ -97,6 +97,13 @@ function levelSelect(){
   }
 }
 
+function startCountDown(){
+  for (var guard of mapGuards){
+    guard.state = "seek";
+    guard.target = player;
+  }
+}
+
 function cleanUp(input){
 	input.x += 20000;
 	h.remove(input);		
