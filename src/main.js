@@ -102,4 +102,9 @@ function cleanUp(input){
 	h.remove(input);		
 }
 
+function death(){
+  player.score = 0;
+  scoreBoard();
+};
+
 function pause(){};
