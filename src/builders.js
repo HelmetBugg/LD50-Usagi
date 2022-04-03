@@ -12,6 +12,23 @@ function player() {
     player.rotation = findPlayerAngle(h.pointer);
   }
   body.score = 0;
+  body.coolDown = 6;
+  body.teleportReady = true;
+
+  body.teleport = function(newX, newY){
+    player.teleportReady = false;
+    player.tint = 0xe60000;
+    var mapXOffset = player.x - newX;
+    var mapYOffset = player.y - newY;
+    player.x = newX;
+    player.y = newY;
+    map.x += mapXOffset;
+    map.y += mapYOffset;
+    setTimeout(function(){
+      player.teleportReady = true;
+      player.tint = 0xffffff;
+    }, body.coolDown*1000);
+  }
   return body;
 }
 

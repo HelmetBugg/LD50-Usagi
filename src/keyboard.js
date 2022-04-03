@@ -39,6 +39,10 @@ function handleKeyUp(event) {
       scoreBoard();
     }
   };
+  if ((event.isComposing || event.key =='c') && player.teleportReady){
+    //map.addChild(h.circle(32, "blue", "black", 0, h.pointer.x - map.x, h.pointer.y - map.y))
+    player.teleport( h.pointer.x - map.x,  h.pointer.y - map.y);
+  };
 }
 
 function preventUseOfDefaultKeys(event) {
