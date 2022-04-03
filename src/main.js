@@ -1,12 +1,15 @@
 "use strict";
 let thingsToLoad = [
-  "res/735315.png"
+  "res/735315.png",
+  "res/bunny_thief_1.png",
+  "res/farmer_1.png",
+  "res/farmer_2.png",
+  "res/farmer_3.png"
 ]
 
 var h = hexi(640, 480, setup, thingsToLoad);
 h.debug = true;
 h.scaleToWindow();
-h.background = "black";
 var player;
 var map;
 var mapGuards = [];
@@ -20,6 +23,9 @@ function setup() {
   var title = h.text("Bunny Ninja Heist", "75px Tahoma", "black");
   h.stage.putCenter(title);
   var startButton = h.text("Play", "45px Tahoma", "grey");
+  var credits = h.text("Credits: Brandon W, Ben K. \n Art: ARoachIFoundOnMyPillow", "15px Tahoma", "darkgrey");
+  h.stage.putBottom(credits);
+  credits.y -= 50; 
   h.stage.putCenter(startButton);
   startButton.y += 90;
   startButton.interact = true;
@@ -27,6 +33,7 @@ function setup() {
   startButton.press = () => {
     cleanUp(title)
     cleanUp(startButton)
+    cleanUp(credits)
     levelSelect();
   }
 }

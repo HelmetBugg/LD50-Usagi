@@ -1,12 +1,16 @@
 "use strict";
 function player() {
-  var body = h.circle(32, "white", "black", 2, 0, 0);
-  var head = h.rectangle(16, 16, "white", "black", 2, 0, 0);
-  body.speed = 4;
-  body.setPivot(0.5, 0.5);
-  body.addChild(head);
-  head.rotation = -0.8;
+  var body = h.circle(15, "black", "black", 0, 0, 0);
+  body.anchor.set(0.5, 0.5);
   map.addChild(body);
+
+  var graphic = h.sprite("res/bunny_thief_1.png");
+  graphic.anchor.set(0.5, 0.5);
+  graphic.rotation = 1.45;
+  body.addChild(graphic);
+  body.graphic = graphic;
+
+  body.speed = 4;
   body.score = 0;
   body.coolDown = 6;
   body.teleportReady = true;
@@ -26,7 +30,7 @@ function player() {
   body.teleport = function(newX, newY){
     if (!player.wouldBreakBounds({'x': newX, 'y': newY})){
       player.teleportReady = false;
-      player.tint = 0xe60000;
+      player.graphic.tint = 0xe60000;
       var mapXOffset = player.x - newX;
       var mapYOffset = player.y - newY;
       player.x = newX;
@@ -35,7 +39,7 @@ function player() {
       map.y += mapYOffset;
       setTimeout(function(){
         player.teleportReady = true;
-        player.tint = 0xffffff;
+        player.graphic.tint = 0xffffff;
       }, body.coolDown*1000);
     }
   }
@@ -97,11 +101,12 @@ function collectable(x, y, score, sprite = "") {
 
 function guard(x, y, waypoints) {
   // Placeholder graphics
-  let guard = h.circle(32, "red", "black", 2, x, y);
-  var head = h.rectangle(16, 16, "red", "black", 2, 0, 0);
-  head.rotation = -0.8;
-  guard.setPivot(0.5, 0.5);
-  guard.addChild(head);
+  let guard = h.circle(18, "red", "black", 2, x, y);
+  var graphic = h.sprite("res/farmer_" + h.randomInt(1, 3) + ".png");
+  graphic.anchor.set(0.5, 0.5);
+  graphic.rotation = 1.45;
+  guard.pivotX = guard.pivotY = 0.5;
+  guard.addChild(graphic);
   map.addChild(guard);
   guard.state = "patrol";
 
