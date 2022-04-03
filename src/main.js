@@ -10,6 +10,8 @@ var player;
 var map;
 var mapGuards = [];
 var mapCollectables = [];
+var clockGraphic;
+var clockInterval;
 h.start();
 
 function setup() {
@@ -51,8 +53,6 @@ function loadLevel(level){
   for(var cbl of level.collectables){
     mapCollectables.push(collectable(cbl.x, cbl.y, cbl.value));
   }  
- 
-  console.log(player.st);  //Don't forget to comment out before pushing or b will yell at you
 }
 
 function findPlayerAngle(t1) {
@@ -73,13 +73,14 @@ function play() {
 }
 
 function scoreBoard(){
+  var curtain = h.rectangle(h.canvas.width, h.canvas.height, "grey");
+  curtain.alpha = 0;
+  h.fadeIn(curtain);
   h.state = pause();
   var endTime = new Date();
   let getEnd = endTime.getTime();
   var et = (getEnd/100);
   var baseScore = 1000;
-  console.log(et);
-  console.log(player.startTime);
   var totalTime = Math.abs(et - player.st);
   var totalTimeScore = Math.floor(baseScore - totalTime); 
     totalTimeScore = Math.max(totalTimeScore, 0);
@@ -111,9 +112,35 @@ function levelSelect(){
   }
 }
 
+function startCountDown(){
+  for (var guard of mapGuards){
+    guard.state = "seek";
+    guard.target = player;
+  }
+  clockGraphic = tooltip(0,0, "Time Remaining 30s");
+  h.stage.putCenter(clockGraphic);
+  clockGraphic.y -= 100;
+  clockGraphic.time = 30;
+  clockGraphic.remaining = 30;
+  clockInterval = setInterval(() => {
+    clockGraphic.text.text = "Time Remaining " + clockGraphic.remaining + "s";
+    if (clockGraphic.remaining > 0){
+      clockGraphic.remaining--;
+    } else {
+      clearInterval(clockInterval);
+      death();
+    }
+  }, 500);
+}
+
 function cleanUp(input){
 	input.x += 20000;
 	h.remove(input);		
 }
+
+function death(){
+  player.score = 0;
+  scoreBoard();
+};
 
 function pause(){};

@@ -32,19 +32,16 @@ function collectable(x, y, score, sprite = "") {
   container.popup = function() {
     var scoreText = h.text(container.score, "20px", "orange", container.x, container.y);
     map.addChild(scoreText);
-    h.slide(scoreText, 0, 100, 50, "smoothstep", true)
+    h.slide(scoreText, container.x - 50, container.y - 100, 60, "smoothstep", true)
     player.score += container.score;
-    h.wait(1000, () => h.remove(scoreText));
-   // console.log(player.score);
+    h.wait(500, () => h.remove(scoreText));
   }
 
   container.update = function () {
     if (h.hit(player, collison)) {
       var index = container.find();
       mapCollectables.splice(index, 1);
-      //console.log(mapCollectables);
       h.remove(container);
-      //console.log(score);
       container.popup()
     }
   }
@@ -68,14 +65,15 @@ function guard(x, y, waypoints) {
   guard.setPivot(0.5, 0.5);
   guard.addChild(head);
   map.addChild(guard);
+  guard.state = "patrol";
 
   // Path finding boilerplate
   // waypoints, without height/width distance function doesn't work.
   guard.waypoints = waypoints;
   guard.waypointIncrement = 0;
   guard.target = guard.waypoints[guard.waypointIncrement];
-  guard.speed = 3;
-  guard.rotationSpeed = 0.08;
+  guard.speed = 1.5;
+  guard.rotationSpeed = 0.05;
   /*if (h.debug) {
     for (const w of guard.waypoints) {
       let waypoint = h.circle(8, "orange", "black", 0, w.x, w.y);
@@ -85,8 +83,8 @@ function guard(x, y, waypoints) {
   }*/
 
   // Line of sight boilerplate
-  var range = 100;
-  var vision = h.rectangle(range, range, "green", "black", 0, 10, 10);
+  var range = 200;
+  var vision = h.circle(range, "green", "black", 0, 10, 10);
   vision.alpha = 0.25;
   guard.vision = vision;
   map.addChild(vision);
@@ -97,11 +95,17 @@ function guard(x, y, waypoints) {
     if (!h.lineOfSight(guard, player, [], 16)) {
       result = false;
     }
-    if (range <= h.distance(guard, player)) {
+    var visionLocation ={
+      'x': guard.x + (range * Math.cos(guard.rotation)),
+      'y': guard.y + (range * Math.sin(guard.rotation)),
+      'width': 1,
+      'height': 1
+    };
+    if(range-10 <= h.distance(visionLocation, player)) {
       result = false;
+      vision.alpha = 0.25;
     }
-
-    if(!h.hit(guard.vision, player)){
+    if(!h.hitTestCircle(guard.vision, player)){
       result = false;
       vision.alpha = 0.25;
     }
@@ -113,14 +117,28 @@ function guard(x, y, waypoints) {
     guard.vision.x = guard.x;
     guard.vision.y = guard.y;
     guard.vision.rotation = guard.rotation + -0.8;
-    guard.checkLineOfSight();
-    guard.targetCheck();
+    if(h.hitTestCircle(guard, player)){
+      death();
+    }
+    if (guard.state === "patrol"){
+      guard.targetCheck();
+      if(guard.checkLineOfSight()){
+        startCountDown();
+      }
+    }
     // Turn guard to face target.
     if (Math.floor(guard.rotation * 10) < Math.floor(h.angle(guard, guard.target) * 10)) {
       guard.rotation += guard.rotationSpeed;
     } else if (Math.floor(guard.rotation * 10) > Math.floor(h.angle(guard, guard.target) * 10)) {
       guard.rotation -= guard.rotationSpeed;
     }
+    /*var distanceRight = Math.abs(Math.floor(guard.rotation * 100) - Math.floor(h.angle(guard, guard.target) * 100))
+    var distanceLeft = Math.abs(Math.floor(guard.rotation * 100) - Math.floor(h.angle(guard, guard.target) * 100))
+    if (distanceRight < distanceLeft) {
+      guard.rotation += guard.rotationSpeed;
+    } else {
+      guard.rotation -= guard.rotationSpeed;
+    }*/
     h.followConstant(guard, guard.target, guard.speed);
   }
 
@@ -138,4 +156,14 @@ function guard(x, y, waypoints) {
   }
 
   return guard;
+}
+
+function tooltip(x, y, text){
+  var menu = h.rectangle(text.length * 20, 24, "powderblue", "white", 0, x, y);
+  var text = h.text(text, "20px", "orange", 0, 0);
+  menu.addChild(text);
+  menu.anchor.set(0.5, 0.5);
+  text.anchor.set(0.5, 0.5);
+  menu.text = text;
+  return menu;
 }
