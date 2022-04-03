@@ -89,12 +89,12 @@ function scoreBoard(){
     player.tts = totalTimeScore;
   var ultraScore = Math.max((player.score + player.tts), 0);
 
-  if (player.death = true){
+  if (player.death){
     player.score = 0;
     player.tts = 0;
     ultraScore = 0;
   }
-
+ 
   var title = h.text("Score Summary", "45px Tahoma", "black", 10, 10);
   var foodScore = h.text("Food Score" + "  " + player.score, "30px Tahoma", "light-grey", 50, 100);
   var timeScore = h.text("Time Score" + "  " + player.tts, "30px Tahoma", "light-grey", 50, 200);
