@@ -5,7 +5,8 @@ let thingsToLoad = [
   "res/farmer_1.png",
   "res/farmer_2.png",
   "res/farmer_3.png",
-  
+  "res/burrow.png",
+
   "res/apple_green.png",
   "res/apple_red.png",
   "res/beet.png",
@@ -39,6 +40,7 @@ var clockGraphic;
 var clockInterval;
 h.start();
 
+
 function setup() {
   var title = h.text("Bunny Ninja Heist", "75px Tahoma", "black");
   h.stage.putCenter(title);
@@ -58,25 +60,29 @@ function setup() {
   }
 }
 
+
 function firstPlay(){
   document.addEventListener('keyup', handleKeyUp);
   document.addEventListener('keydown', handleKeyDown);
   h.state = play;
 }
 
+
 function loadLevel(level){
   map = h.sprite(level.graphic);
   map.x -= level.spawn.x;
   map.y -= level.spawn.y;
-  player = player();
 
+  player = player();
   player.x = level.spawn.x + (h.canvas.width/2);
   player.y = level.spawn.y + (h.canvas.height/2); 
+
+  player.spawn = burrow(level.spawn.x + (h.canvas.width/2), level.spawn.y + (h.canvas.height/2)+30);
+
   var startTime = new Date();
   let getStart = startTime.getTime();
   player.st = (getStart/100);
-  player.spawn = h.circle(10, "purple", "black", 0, level.spawn.x + (h.canvas.width/2), level.spawn.y + (h.canvas.height/2)+30);
-  map.addChild(player.spawn);
+
   for(var npc of level.npcs){
     mapGuards.push(guard(npc.x, npc.y, npc.path));
   }
@@ -91,12 +97,14 @@ function loadLevel(level){
   } 
 }
 
+
 function findPlayerAngle(t1) {
   var t2 = {};
   t2.x = player.x + map.x;
   t2.y = player.y + map.y;
   return Math.atan2(t1.y - t2.y, t1.x - t2.x);
 }
+
 
 function play() {
   player.update();
@@ -107,6 +115,7 @@ function play() {
     collectable.update();
   }
 }
+
 
 function scoreBoard(){
   var curtain = h.rectangle(h.canvas.width, h.canvas.height, "grey");
@@ -135,7 +144,16 @@ function scoreBoard(){
   var level1Button = h.text("Total Score" + "  " + ultraScore, "30px Tahoma", "light-grey", 100, 300);
 }
 
+
 function levelSelect(){
+  var howToPlay = h.text('\How To Play\n\
+Use "w","a","s" and "d" to move around.\n\
+Collect as many pieces of food from the \ngarden as fast as you can to score points.\n\
+Dont get spotted, hide in bushes and \navoid line of sight.\n\
+Use "e" to teleport where your cursor is.\nThis ability has a cooldown.\n\
+Return to burrow to exit level.\n\
+  ', "20px Tahoma", "black", 260, 120);
+
   var title = h.text("Level Select", "45px Tahoma", "black");
   var level1Button = h.text("Level 1", "30px Tahoma", "light-grey");
   level1Button.y = 90;
@@ -155,6 +173,7 @@ function levelSelect(){
     firstPlay();
   }
 }
+
 
 function startCountDown(){
   for (var guard of mapGuards){
@@ -180,15 +199,18 @@ function startCountDown(){
   }, 500);
 }
 
+
 function cleanUp(input){
 	input.x += 20000;
 	h.remove(input);		
 }
+
 
 function death(){
   player.death = true;
   clearInterval(clockInterval);
   scoreBoard();
 };
+
 
 function pause(){};

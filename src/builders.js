@@ -25,6 +25,11 @@ function player() {
     h.move(player);
     h.move(map);
     player.rotation = findPlayerAngle(h.pointer);
+    if(h.hit(player, player.spawn)){
+      player.spawn.tip.visible = true;
+    } else {
+       player.spawn.tip.visible = false;
+    }
   }
 
   body.teleport = function(newX, newY){
@@ -64,7 +69,7 @@ function collectable(x, y, score, sprite = "") {
     collectable = h.circle(16, "gold", "black", 2, 0, 0);
   } else {
     collectable = h.sprite(sprite);
-    collectable.scaleX = collectable.scaleY = 1.4;
+    collectable.scaleX = collectable.scaleY = 1.8;
   }
   let collison = h.rectangle(16, 16, "black", "white", 0, container.x, container.y);
   let shadow = h.circle(16, "black", "black", 2, 0, 25);
@@ -210,11 +215,23 @@ function guard(x, y, waypoints) {
 }
 
 function tooltip(x, y, text){
-  var menu = h.rectangle(text.length * 20, 24, "powderblue", "white", 0, x, y);
-  var text = h.text(text, "20px", "orange", 0, 0);
+  var menu = h.rectangle(text.length * 20, 24, "powderblue", "blue", 2, x, y);
+  var text = h.text(text, "20px", "blue", 0, 0);
   menu.addChild(text);
   menu.anchor.set(0.5, 0.5);
   text.anchor.set(0.5, 0.5);
   menu.text = text;
   return menu;
+}
+
+function burrow(x, y){
+  var sprite = h.sprite("res/burrow.png", x, y);
+  sprite.scaleX = sprite.scaleY = 1.8;
+  map.addChild(sprite);
+
+  sprite.tip = tooltip(0, 0, "Press 'E' to Escape.");
+  sprite.tip.visible = false;
+  sprite.addChild(sprite.tip);
+
+  return sprite;
 }

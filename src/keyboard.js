@@ -34,10 +34,8 @@ function handleKeyUp(event) {
     map.vx = 0;
     player.vx = 0;
   };
-  if (event.isComposing || event.key == 'e') {
-    if (h.hit(player, player.spawn)) {
+  if ((event.isComposing || event.key == 'e') && h.hit(player, player.spawn)) {
       scoreBoard();
-    }
   };
   if ((event.isComposing || event.key == 'c') && player.teleportReady) {
     //map.addChild(h.circle(32, "blue", "black", 0, h.pointer.x - map.x, h.pointer.y - map.y))
@@ -53,7 +51,6 @@ function handleKeyUp(event) {
       h.stage,           //The container to which the bullet should be added
       7,                 //The bullet's speed (pixels per frame)
       [],      //The array used to store the bullets
-
       () => h.circle(10, "brown", "black", 2, 0, 0)
     );
   };
