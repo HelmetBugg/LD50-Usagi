@@ -75,11 +75,10 @@ function player() {
         'y': h.randomInt(-12,10)
       };
       var cloud = h.circle(20, "white", "black", 0, body.x + jitter.x, body.y + jitter.y);
-      //h.rotateAroundSprite(cloud, player, 5, 0.14);
+      cloud.alpha = 0.8;
       cloud.anchor.set(0.5, 0.5);
       map.addChild(cloud);
       var tween = h.fadeOut(cloud);
-      //tween.onComplete = () => h.remove(cloud);
     }
   }
 
@@ -113,6 +112,7 @@ function collectable(x, y, score, sprite = "") {
     map.addChild(scoreText);
     h.slide(scoreText, container.x - 50, container.y - 100, 60, "smoothstep", true)
     player.score += container.score;
+    player.collectedCount++;
     h.wait(500, () => h.remove(scoreText));
   }
 

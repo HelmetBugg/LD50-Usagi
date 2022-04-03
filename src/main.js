@@ -85,7 +85,7 @@ function loadLevel(level){
     map = h.sprite(level.graphic);
     player = player();
     player.spawn = burrow(level.spawn.x + (h.canvas.width/2), level.spawn.y + (h.canvas.height/2)+30);
-
+    map.counter = h.text("0/0", "22px Tahoma", "white", 10, 10);
   } else {
     map.texture = PIXI.Texture.from(level.graphic);
     levelReset();
@@ -111,6 +111,8 @@ function loadLevel(level){
   for(var cbl of level.collectables){
     mapCollectables.push(collectable(cbl.x, cbl.y, cbl.value, cbl.sprite));
   }  
+  map.counter.text = "0/" + mapCollectables.length;
+  map.counter.total = mapCollectables.length;
   for(var col of level.collisions){
     var colGraphic = h.rectangle(col.width, col.height, "forestgreen", "black", 0, col.x, col.y)
     map.addChild(colGraphic)
@@ -135,12 +137,10 @@ function levelReset(){
       cleanUp(npc);
     } 
     mapGuards = [];   
-
     for(var cbl of mapCollisions){
       cleanUp(cbl);
     }
     mapCollisions = [];   
-
     for(var col of mapCollectables){
       cleanUp(col);
     }
@@ -157,6 +157,7 @@ function findPlayerAngle(t1) {
 
 
 function play() {
+  map.counter.text = player.collectedCount + "/" + map.counter.total;
   player.update();
   for (var guard of mapGuards){
     guard.update();
@@ -168,33 +169,39 @@ function play() {
 
 
 function scoreBoard(){
-  //cleanUp(map);
   music.pause();
   var curtain = h.rectangle(h.canvas.width, h.canvas.height, "darkgrey");
   curtain.alpha = 0;
   h.fadeIn(curtain);
   h.state = pause();
+
   var endTime = new Date();
   let getEnd = endTime.getTime();
-  var et = (getEnd/100);
   var baseScore = 1000;
-  var totalTime = Math.abs(et - player.st);
-  var totalTimeScore = Math.floor(baseScore - totalTime); 
-  totalTimeScore = Math.max(totalTimeScore, 0);
-  player.tts = totalTimeScore;
-  var ultraScore = Math.max((player.score + player.tts), 0);
+  var timeScore = Math.max(Math.floor(baseScore - Math.abs((getEnd/100) - player.st)), 0);
+  var bonus = 0;
+  if (player.collectedCount >= map.counter.total){
+    bonus = 500;
+  }
+  var finalScore = player.score + timeScore + bonus;
   if (player.death){
     player.score = 0;
     player.tts = 0;
-    ultraScore = 0;
+    finalScore = 0;
+    bonus = 0;
   }
  
-  var title = h.text("Score Summary", "45px Tahoma", "black", 10, 10);
-  var foodScore = h.text("Food Score" + "  " + player.score, "30px Tahoma", "lightgrey", 50, 100);
-  var timeScore = h.text("Time Score" + "  " + player.tts, "30px Tahoma", "lightgrey", 50, 200);
-  var totalScore = h.text("Total Score" + "  " + ultraScore, "30px Tahoma", "lightgrey", 100, 300);  
-  var returnToLevelSelect = h.text("Return", "30px Tahoma", "black", 100, 400);
-  var menuGroup = h.group(curtain, title, foodScore, timeScore, totalScore, returnToLevelSelect);
+  var title = h.text("Score Summary", "45px Tahoma", "black", 20, 20);
+  var returnToLevelSelect = h.text("Return", "45px Tahoma", "black", 20, 400);
+  var scores  = h.text("\
+  Food Score" + "       " + player.score + "\n\
+  Time Score" + "       " + timeScore + "\n\
+  Completion Bonus" + "   " + bonus + "\n\n\
+      Total Score" + "   " + finalScore + "\
+  ", "45px Tahoma", "lightgrey", 50, 100);
+
+  //var menuGroup = h.group(curtain, title, foodScore, timeScore, totalScore, returnToLevelSelect);
+  var menuGroup = h.group(curtain, title, scores, returnToLevelSelect);
   returnToLevelSelect.interact = true;
   returnToLevelSelect.press = () => { 
     cleanUp(menuGroup);
@@ -232,6 +239,8 @@ Return to burrow to exit level.\n\
   }
   level2Button.interact = true;
   level2Button.press = function() {
+    var tween = h.fadeOut(curtain)
+    tween.onComplete = () => cleanUp(curtain);
     cleanUp(menuGroup);
     loadLevel(level2);
   }
