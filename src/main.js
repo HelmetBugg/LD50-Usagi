@@ -43,7 +43,7 @@ let thingsToLoad = [
 var h = hexi(640, 480, setup, thingsToLoad);
 var player;
 var map;
-var debug = true;
+var debug = false;
 if(debug){
   h.scaleToWindow();
 }
@@ -61,7 +61,7 @@ h.backgroundColor = "black";
 function setup() {
   window.focus();
   var background = h.sprite("res/usagi_concept_art_1.png");
-  var credits = h.text("Credits: Brandon W, Ben K. \n Food: ARoachIFoundOnMyPillow", "15px Tahoma", "lightgrey");
+  var credits = h.text("Credits: Brandon W, Ben K. \n Food: ARoachIFoundOnMyPillow\nTilemap: Dawnlike", "15px Tahoma", "lightgrey");
   credits.y = 95;
   credits.x = 15; 
   var title = h.text("Bunny Ninja Heist", "75px Tahoma", "white");
