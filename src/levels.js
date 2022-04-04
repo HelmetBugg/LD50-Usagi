@@ -198,18 +198,28 @@ const level2 = {
 
   ],
   "collisions": [
-    { 'x': 0, 'y': 0, 'width':100, 'height':20, 'sprite':"", 'value': 100 },
-    { 'x': 0, 'y': 0, 'width':100, 'height':200, 'sprite':"", 'value': 100 }
+    { 'x': 98, 'y': 1256, 'width':500, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 782, 'y': 1256, 'width':500, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 98, 'y': 950, 'width':500, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 782, 'y': 950, 'width':500, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 98, 'y': 750, 'width':500, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 782, 'y': 750, 'width':500, 'height':48, 'sprite':"", 'value': 100 },
+
+    { 'x': 80, 'y': 50, 'width':1250, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 80, 'y': 50, 'width':48, 'height':780, 'sprite':"", 'value': 100 },
+    { 'x': 1300, 'y': 50, 'width':48, 'height':780, 'sprite':"", 'value': 100 },
+    { 'x': 0, 'y': 0, 'width':48, 'height':250, 'sprite':"", 'value': 100 }
   ],
   "bushes": [
-    { 'x': 630, 'y': 812, 'width':0, 'height':0, 'sprite':"", 'value': 100 }
+    { 'x': 300, 'y': 408, 'width':250, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 780, 'y': 408, 'width':250, 'height':48, 'sprite':"", 'value': 100 }
   ]
 }
 
 
 const level3 = {
   "graphic": "res/bunny_ninja_level_3.png",
-  "spawn": { 'x': 352, 'y': 1056 },
+  "spawn": { 'x': 200, 'y': 1056 },
   "npcs": [
     {
       'x': 172, 'y': 876, 'sprite': "", 'path': [
@@ -241,6 +251,7 @@ const level3 = {
     }
   ],
   "collectables": [
+    { 'x': 1424, 'y': 1292, 'sprite': "res/doughnut_pink.png", 'value': 500 },
     { 'x': 976, 'y': 460, 'sprite': "res/lettuce.png", 'value': 100 },
     { 'x': 1016, 'y': 460, 'sprite': "res/lettuce.png", 'value': 100 },
     { 'x': 1076, 'y': 460, 'sprite': "res/lettuce.png", 'value': 100 },
@@ -301,8 +312,18 @@ const level3 = {
 
   ],
   "collisions": [
-    { 'x': 0, 'y': 0, 'width':100, 'height':20, 'sprite':"", 'value': 100 },
-    { 'x': 0, 'y': 0, 'width':100, 'height':200, 'sprite':"", 'value': 100 }
+    { 'x': 0, 'y': 480, 'width':270, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 480, 'y': 480, 'width':270, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 950, 'y': 480, 'width':270, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 1424, 'y': 480, 'width':270, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 780, 'y': 0, 'width':48, 'height':230, 'sprite':"", 'value': 100 },
+    { 'x': 915, 'y': 0, 'width':48, 'height':230, 'sprite':"", 'value': 100 },
+    { 'x': 780, 'y': 400, 'width':48, 'height':230, 'sprite':"", 'value': 100 },
+    { 'x': 915, 'y': 400, 'width':48, 'height':230, 'sprite':"", 'value': 100 },
+
+    { 'x': 824, 'y': 1012, 'width':48, 'height':400, 'sprite':"", 'value': 100 },
+    { 'x': 420, 'y': 1012, 'width':1200, 'height':48, 'sprite':"", 'value': 100 },
+    { 'x': 440, 'y': 1212, 'width':48, 'height':200, 'sprite':"", 'value': 100 }
   ],
   "bushes": [
     { 'x': 630, 'y': 812, 'width':0, 'height':0, 'sprite':"", 'value': 100 }
