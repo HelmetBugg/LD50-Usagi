@@ -28,6 +28,8 @@ let thingsToLoad = [
   "res/bunny_ninja_level_2.png",
   "res/bunny_ninja_level_3.png",
 
+  "res/usagi_concept_art_1.png",
+
   "sound/alarm_caught.wav",
   "sound/button_press.wav",
   "sound/caught.wav",
@@ -58,20 +60,22 @@ h.backgroundColor = "black";
 
 function setup() {
   window.focus();
+  var background = h.sprite("res/usagi_concept_art_1.png");
+  var credits = h.text("Credits: Brandon W, Ben K. \n Food: ARoachIFoundOnMyPillow", "15px Tahoma", "lightgrey");
+  credits.y = 95;
+  credits.x = 15; 
   var title = h.text("Bunny Ninja Heist", "75px Tahoma", "white");
-  h.stage.putCenter(title);
-  var startButton = h.text("Play", "45px Tahoma", "grey");
-  var credits = h.text("Credits: Brandon W, Ben K. \n Food: ARoachIFoundOnMyPillow", "15px Tahoma", "darkgrey");
-  h.stage.putBottom(credits);
-  credits.y -= 50; 
-  h.stage.putCenter(startButton);
-  startButton.y += 90;
+  title.x = 10;
+  var startButton = h.text("Play", "45px Tahoma", "black");
+  startButton.y = 150;
+  startButton.x = 80;
   startButton.interact = true;
   h.pulse(startButton, 40, 0.3);
   startButton.press = () => {
-    cleanUp(title)
-    cleanUp(startButton)
-    cleanUp(credits)
+    cleanUp(title);
+    cleanUp(startButton);
+    cleanUp(credits);
+    cleanUp(background);
     levelSelect();
   }
 }
@@ -142,7 +146,6 @@ function loadLevel(level){
     var bshGraphic = h.rectangle(bsh.width, bsh.height, "forestgreen", "black", 0, bsh.x, bsh.y)
     map.addChild(bshGraphic)
     bshGraphic.alpha = 0.75;
-    //bshGraphic.visible = debug;
     mapBushes.push(bshGraphic);
   } 
   h.state = play;
@@ -255,7 +258,7 @@ Return to burrow to exit level.\n\
   level1Button.y = 90;
   var level2Button = h.text("Level 2", "30px Tahoma", "light-grey");
   level2Button.y = 180;
-  var level3Button = h.text("Level 3", "30px Tahoma", "grey");
+  var level3Button = h.text("Level 3", "30px Tahoma", "light-grey");
   level3Button.y = 270;
 
   var menuGroup = h.group(title, level2Button, level3Button, howToPlay, level1Button);
@@ -273,6 +276,13 @@ Return to burrow to exit level.\n\
     tween.onComplete = () => cleanUp(curtain);
     cleanUp(menuGroup);
     loadLevel(level2);
+  }
+  level3Button.interact = true;
+  level3Button.press = function() {
+    var tween = h.fadeOut(curtain)
+    tween.onComplete = () => cleanUp(curtain);
+    cleanUp(menuGroup);
+    loadLevel(level3);
   }
 }
 
