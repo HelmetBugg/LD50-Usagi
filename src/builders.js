@@ -1,4 +1,4 @@
-"use strict";
+
 function player() {
   var body = h.circle(18, "black", "black", 0, 0, 0);
   body.anchor.set(0.5, 0.5);
